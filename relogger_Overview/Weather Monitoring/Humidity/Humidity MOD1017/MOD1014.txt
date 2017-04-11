@@ -1,0 +1,70 @@
+For a new project I am looking at masuring weather data in remote locations. This is for a low-cost, low-power wind data logging unit.
+The main parameter to record is, of course, the wind speed adn I am doing this with ten minute averages from a pulse output anemometer.
+While this data is useful, it would be even more useful with wind direction, temperature and humidity as all of these factors affect the wind potential.
+
+While I was planning this project, I was contacted by the folk at Embedded Adventures who asked me to check out some of their kits. 
+I had blogged about their sound module which I had used in another project (and one is also being used by a hackspace mates dial-a-thing device).
+
+So to record additional data along with the wind speed, I decided to try out Embedded Adventures Humidity and Temperature sensor (MOD-1014).
+
+This uses the HIH-6130 IC from Honeywell. It 'talks' in I2C, so quite easy to interface and provides 14 bit temperature (+/- 1C) and 14 bit humidity (+/- 4%) data.
+
+So here is a post about getting started with the sensor.
+
+I wired it up to an Arduino Uno. On the Arduino Uno the I2C interface is connected with SDA (serial Data) to Analog pin A4 and SCK (Serial Clock) to Analog pin A5.
+I also applied 5V power.
+
+I checked out the Embedded Adventures document, but there is not any data on how to read data from the sensor.
+For that we need to find the HIH-6130 datasheet
+
+Here is a technical note on using the HIH-6130 
+http://www.phanderson.com/arduino/I2CCommunications.pdf
+
+Or, even better, find someone who has done this before:
+http://www.phanderson.com/arduino/hih6130.html
+
+There is also an arduino library here:
+http://code.google.com/p/arduino-hih61xx/
+
+I downloaded the arudino library above and opened up the examples. When tyring to upload the example it came up with the errors:
+example:6: error: 'HIH61XX' does not name a type
+example.ino: In function 'void loop()':
+example:19: error: 'hih' was not declared in this scope
+
+This turns out to be due to the difference in directory structure between Arduino IDE versions. 
+To solve this error I needed to move "HIH61XX.cpp" and "HIH61XX.h" from the "HIH61XX" folder and up one level to the "HIH" folder. This was a difference between IDE versions 1.0.3 and 1.0.5, apparently.
+
+This example has been set up to output the data both as raw and converted data as shown here:
+Humidity: 0.57643 RH (9443)
+Temperature: 17.39043 C (5698)
+
+It then stops an monitors the serial line for commands. The commands are:
+'h' = Humidity
+'t' = Temperature
+'a' = Slave I2C address
+'p' = Power pin (if you dont want to power the sensor all the time
+'u' = Update
+'1' = Start
+'0' = Stop
+
+If you want the device to take new readings then first 'u' for update (to take a new reading) and then use 'h' and 't' to give data back.
+
+The temperature is given in degrees C.
+The Humidity is give in % relative humidity
+
+Relative Humidity is a term I have used, but didnt really know what it meant. So here are more details:
+https://www.google.co.uk/#q=relative+humidity
+http://science.howstuffworks.com/dictionary/meteorological-terms/question651.htm
+
+Relative humidity is the ratio of the current absolute humidity, compared to the highest possible absolute humidity (which depends upon the temperature).
+Absolute humidity is the mass of water divided by the mass of dry air in a given volume at a given temperature. The hotter air is, the more water it can contain.
+100% relative humidity means the air is saturdated with water and cannot hold any more.
+As we sweat, we rely upon air to get rid of mositure. If the relative humidity is high then the sweat will not evaporate and we feel hotter than at lower humidities.
+
+Going further
+
+Each sensor is given the standard address 0x27 (or 39 in decimal). This can be changed, but not for this first test, as the re is nothing else attached.
+Data can be transferred at 100kbits/s or 400kbits/s in "fast mode". Just normal mode is good enough for us at the moment.
+
+If you would like to change the address of the sensor (say you have more than one sensor, or the address clashes with another device) then here is some information on changing the EERPOM on the IC.
+http://www.phanderson.com/arduino/CommandModeInstructions.pdf

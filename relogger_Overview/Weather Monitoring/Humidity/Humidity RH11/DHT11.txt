@@ -1,0 +1,64 @@
+This is a short test of a DHT11 humidity sensor I had lying around from another project.
+
+This is a low-cost sensor which has a capacitative humidity sensor and the thermistor within the same case. 
+I am using the DHT11, which is ultra-low cost, but not very accurate (while the DHT22 is slightly higher cost and has slightly better specifications).
+There is a basic analog-to-digital converter within the unit and hence the output is digital. 
+The maximum sample rate is once per second.
+
+
+Adafruit has (as always) a great intro on using these devices:
+http://learn.adafruit.com/dht
+
+I used the DHT11 Arduino code from LadyAda website (downloaded about a year ago), from here: http://learn.adafruit.com/dht/downloads.
+
+
+There are a number of other Arduino libraries for these sensors:
+http://playground.arduino.cc/main/DHT11Lib
+
+http://playground.arduino.cc/Main/DHTLib
+
+As there is not much info on the sensor itself the pin-out is vital:
+From left to right, looking at the sensor from the face with holes in it:
+    1 : VCC (5V)
+    2 : SIGnal
+    3 : NC Not connected
+    4 : GND 
+
+I wired the signal pin to D2 on the Arduino and powere dit with 5V (voltage supply range is 3-5.5V, so good for both 3.3V and 5V).
+
+I uploaded the following code:
+
+CODE EXAMPLE
+
+And it started to output data onto the serial interface:
+
+PICTURE OF CODE
+
+One issue with this is the delay in readings (it took around 2 seconds before a change in humidity was detected). 
+It also took a very long time for the humidity values to fall, although this might be how long it takes for humiditiy to drop.
+
+
+I also had a low-cost DYPTH01B-SPI temperature and humidity sensor module.
+
+Some details on this sensor are available here:
+http://iw.suntekstore.com/attach.php?id=14001923&img=14001923.doc
+Annoyingly this had output pins which were 2mm pitch, so did not fit into my 2.54mm (0.1") pitch standard breadboard.
+
+There are far fewer examples and libraries for this device, but I did find this weather station design:
+http://forum.auriolws.info/viewtopic.php?f=16&t=83
+
+This was wired to the SPI lines on the Arduino:
+
+// 10 SS   / CS
+// 11 MOSI / nc
+// 12 MISO / SDAT
+// 13 CLK  / SCK
+
+// 5V      / VDD
+// GND     / VSS
+// nc      / Reset
+
+
+There was a solder bridge over one of the capacitors (which was missing). When I looked at anothe runit I had - it had a 0ohm resistor in that posiion, so it is meant to be connected...
+
+
