@@ -36,8 +36,6 @@ LIBS:philips
 LIBS:nxp
 LIBS:matts_components
 LIBS:linear2
-LIBS:ds3231
-LIBS:micro_sd
 LIBS:RELogger_PCB_v1-cache
 EELAYER 25 0
 EELAYER END
@@ -53,33 +51,33 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
-Connection ~ 6100 6450
+Connection ~ 10200 5050
 Wire Wire Line
-	4750 6850 6100 6850
-Connection ~ 4750 6450
+	8850 5450 10200 5450
+Connection ~ 8850 5050
 $Comp
 L CP1-RESCUE-RELogger_PCB_v1 C13
 U 1 1 5463B713
-P 6100 6650
-F 0 "C13" H 6150 6750 50  0000 L CNN
-F 1 "10uF" H 6150 6550 50  0000 L CNN
-F 2 "" H 6100 6650 60  0001 C CNN
-F 3 "" H 6100 6650 60  0001 C CNN
-	1    6100 6650
+P 10200 5250
+F 0 "C13" H 10250 5350 50  0000 L CNN
+F 1 "10uF" H 10250 5150 50  0000 L CNN
+F 2 "" H 10200 5250 60  0001 C CNN
+F 3 "" H 10200 5250 60  0001 C CNN
+	1    10200 5250
 	1    0    0    -1  
 $EndComp
 $Comp
 L CP1-RESCUE-RELogger_PCB_v1 C11
 U 1 1 5463B719
-P 4750 6650
-F 0 "C11" H 4800 6750 50  0000 L CNN
-F 1 "10uF" H 4800 6550 50  0000 L CNN
-F 2 "" H 4750 6650 60  0001 C CNN
-F 3 "" H 4750 6650 60  0001 C CNN
-	1    4750 6650
+P 8850 5250
+F 0 "C11" H 8900 5350 50  0000 L CNN
+F 1 "10uF" H 8900 5150 50  0000 L CNN
+F 2 "" H 8850 5250 60  0001 C CNN
+F 3 "" H 8850 5250 60  0001 C CNN
+	1    8850 5250
 	1    0    0    -1  
 $EndComp
-Text HLabel 6400 6450 2    60   Output ~ 0
+Text HLabel 10500 5050 2    60   Output ~ 0
 3V3
 Text HLabel 4150 2700 0    60   Input ~ 0
 SOLAR+
@@ -132,20 +130,28 @@ $EndComp
 $Comp
 L MCP1703-Matt U4
 U 1 1 5467B677
-P 5450 6500
-F 0 "U4" H 5600 6304 60  0000 C CNN
-F 1 "MCP1703" H 5450 6700 60  0000 C CNN
-F 2 "~" H 5450 6500 60  0000 C CNN
-F 3 "~" H 5450 6500 60  0000 C CNN
-	1    5450 6500
+P 9550 5100
+F 0 "U4" H 9700 4904 60  0000 C CNN
+F 1 "MCP1826S" H 9550 5300 60  0000 C CNN
+F 2 "~" H 9550 5100 60  0000 C CNN
+F 3 "http://docs-europe.electrocomponents.com/webdocs/137e/0900766b8137eda2.pdf" H 9550 5100 60  0001 C CNN
+F 4 "~" H 9550 5100 60  0000 C CNN "Notes"
+F 5 "1A LDO low Iq" H 9550 5100 60  0001 C CNN "Description"
+F 6 "Microchip" H 9550 5100 60  0001 C CNN "Manufacturer"
+F 7 "MCP1826S-3302E/AB" H 9550 5100 60  0001 C CNN "Manufacturer Part No"
+F 8 "RS" H 9550 5100 60  0001 C CNN "Supplier 1"
+F 9 "669-5174" H 9550 5100 60  0001 C CNN "Supplier 1 Part No"
+F 10 "0.76" H 9550 5100 60  0001 C CNN "Supplier 1 Cost"
+F 11 "~" H 9550 5100 60  0001 C CNN "Supplier 2"
+F 12 "~" H 9550 5100 60  0001 C CNN "Supplier 2 Part No"
+F 13 "~" H 9550 5100 60  0001 C CNN "Supplier 2 Cost"
+	1    9550 5100
 	1    0    0    -1  
 $EndComp
 Text HLabel 4400 4450 0    60   Input ~ 0
 BATT+
 Wire Wire Line
-	5850 6450 6400 6450
-Wire Wire Line
-	3750 6450 5050 6450
+	9950 5050 10500 5050
 Text HLabel 1750 1000 0    60   Input ~ 0
 EXTERNAL+
 $Comp
@@ -257,15 +263,15 @@ Wire Wire Line
 	4150 1650 4150 1850
 Connection ~ 4150 1850
 Wire Wire Line
-	5450 6750 5450 6850
-Connection ~ 5450 6850
-Text HLabel 5100 7050 0    60   Input ~ 0
+	9550 5350 9550 5450
+Connection ~ 9550 5450
+Text HLabel 9200 5650 0    60   Input ~ 0
 GND
 Wire Wire Line
-	5100 7050 5250 7050
+	9200 5650 9350 5650
 Wire Wire Line
-	5250 7050 5250 6850
-Connection ~ 5250 6850
+	9350 5650 9350 5450
+Connection ~ 9350 5450
 Connection ~ 2000 1850
 $Comp
 L MCP73832 U5
@@ -274,7 +280,17 @@ P 5500 4700
 F 0 "U5" H 5550 4650 60  0000 C CNN
 F 1 "MCP73832" H 5400 5550 60  0000 C CNN
 F 2 "" H 5500 4700 60  0000 C CNN
-F 3 "" H 5500 4700 60  0000 C CNN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/20001984g.pdf" H 5500 4700 60  0001 C CNN
+F 4 "~" H 5500 4700 60  0000 C CNN "Notes"
+F 5 "500mA Linear Charge control IC" H 5500 4700 60  0001 C CNN "Description"
+F 6 "Microchip" H 5500 4700 60  0001 C CNN "Manufacturer"
+F 7 "MCP73832T-2DCI/OT" H 5500 4700 60  0001 C CNN "Manufacturer Part No"
+F 8 "RS" H 5500 4700 60  0001 C CNN "Supplier 1"
+F 9 "738-6629" H 5500 4700 60  0001 C CNN "Supplier 1 Part No"
+F 10 "0.446" H 5500 4700 60  0001 C CNN "Supplier 1 Cost"
+F 11 "~" H 5500 4700 60  0001 C CNN "Supplier 2"
+F 12 "~" H 5500 4700 60  0001 C CNN "Supplier 2 Part No"
+F 13 "~" H 5500 4700 60  0001 C CNN "Supplier 2 Cost"
 	1    5500 4700
 	1    0    0    -1  
 $EndComp
@@ -320,9 +336,19 @@ L Q_PMOS_GDS Q2
 U 1 1 57A0AB0E
 P 9150 2550
 F 0 "Q2" H 9450 2600 50  0000 R CNN
-F 1 "Q_PMOS_GDS" H 9800 2500 50  0000 R CNN
+F 1 "RFU9110PBF" H 9800 2500 50  0000 R CNN
 F 2 "" H 9350 2650 50  0000 C CNN
-F 3 "" H 9150 2550 50  0000 C CNN
+F 3 "http://docs-europe.electrocomponents.com/webdocs/0791/0900766b807912ad.pdf" H 9150 2550 50  0001 C CNN
+F 4 "~" H 9150 2550 60  0000 C CNN "Notes"
+F 5 "3.1A P FET" H 9150 2550 60  0001 C CNN "Description"
+F 6 "Vishay" H 9150 2550 60  0001 C CNN "Manufacturer"
+F 7 "RFU9110PBF" H 9150 2550 60  0001 C CNN "Manufacturer Part No"
+F 8 "RS" H 9150 2550 60  0001 C CNN "Supplier 1"
+F 9 "541-1663" H 9150 2550 60  0001 C CNN "Supplier 1 Part No"
+F 10 "0.24" H 9150 2550 60  0001 C CNN "Supplier 1 Cost"
+F 11 "~" H 9150 2550 60  0001 C CNN "Supplier 2"
+F 12 "~" H 9150 2550 60  0001 C CNN "Supplier 2 Part No"
+F 13 "~" H 9150 2550 60  0001 C CNN "Supplier 2 Cost"
 	1    9150 2550
 	0    -1   1    0   
 $EndComp
@@ -389,7 +415,7 @@ F 3 "" H 6050 4750 50  0000 C CNN
 $EndComp
 Text HLabel 4750 4300 0    60   Input ~ 0
 GND
-Text HLabel 3550 5750 0    60   Input ~ 0
+Text HLabel 8150 5050 0    60   Input ~ 0
 Vss
 Text HLabel 4500 5150 0    60   Input ~ 0
 GND
@@ -441,8 +467,6 @@ Connection ~ 6700 4450
 Connection ~ 6500 2500
 Text HLabel 4100 3050 0    60   Input ~ 0
 V_USB
-Wire Wire Line
-	4100 3050 7200 3050
 Connection ~ 7200 3050
 $Comp
 L SPST SW3
@@ -462,53 +486,20 @@ Wire Wire Line
 Wire Wire Line
 	10550 2650 10550 2850
 $Comp
-L Q_PMOS_GDS Q1
-U 1 1 57B9A111
-P 3650 6150
-F 0 "Q1" H 3950 6200 50  0000 R CNN
-F 1 "Q_PMOS_GDS" H 4300 6100 50  0000 R CNN
-F 2 "" H 3850 6250 50  0000 C CNN
-F 3 "" H 3650 6150 50  0000 C CNN
-	1    3650 6150
-	1    0    0    1   
-$EndComp
-$Comp
-L R R15
-U 1 1 57B9A118
-P 3350 6400
-F 0 "R15" V 3430 6400 50  0000 C CNN
-F 1 "100k" V 3350 6400 50  0000 C CNN
-F 2 "" V 3280 6400 50  0000 C CNN
-F 3 "" H 3350 6400 50  0000 C CNN
-	1    3350 6400
-	1    0    0    -1  
-$EndComp
-Text Notes 3550 6600 0    60   ~ 0
-Power Control
-Wire Wire Line
-	3750 5750 3750 5950
-Wire Wire Line
-	3750 6350 3750 6450
-$Comp
-L GND-RESCUE-RELogger_PCB_v1 #PWR026
-U 1 1 57B9A129
-P 3350 6600
-F 0 "#PWR026" H 3350 6600 30  0001 C CNN
-F 1 "GND" H 3350 6530 30  0001 C CNN
-F 2 "" H 3350 6600 60  0001 C CNN
-F 3 "" H 3350 6600 60  0001 C CNN
-	1    3350 6600
-	1    0    0    -1  
+L D_Schottky D18
+U 1 1 58F5FCFA
+P 6050 3050
+F 0 "D18" H 6050 3150 50  0000 C CNN
+F 1 "D_Schottky" H 6050 2950 50  0000 C CNN
+F 2 "" H 6050 3050 50  0000 C CNN
+F 3 "" H 6050 3050 50  0000 C CNN
+	1    6050 3050
+	-1   0    0    1   
 $EndComp
 Wire Wire Line
-	3350 6600 3350 6550
+	4100 3050 5900 3050
 Wire Wire Line
-	3250 6150 3450 6150
+	6200 3050 7200 3050
 Wire Wire Line
-	3350 6150 3350 6250
-Text HLabel 3250 6150 0    60   Input ~ 0
-PWR_CTRL
-Connection ~ 3350 6150
-Wire Wire Line
-	3550 5750 3750 5750
+	8150 5050 9150 5050
 $EndSCHEMATC

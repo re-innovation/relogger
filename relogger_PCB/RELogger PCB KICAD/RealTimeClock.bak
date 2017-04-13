@@ -36,8 +36,6 @@ LIBS:philips
 LIBS:nxp
 LIBS:matts_components
 LIBS:linear2
-LIBS:ds3231
-LIBS:micro_sd
 LIBS:RELogger_PCB_v1-cache
 EELAYER 25 0
 EELAYER END
@@ -84,4 +82,5 @@ Wire Wire Line
 	5550 3350 5750 3350
 Wire Wire Line
 	5550 3450 5750 3450
+NoConn ~ 5750 3550
 $EndSCHEMATC

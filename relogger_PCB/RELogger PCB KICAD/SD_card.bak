@@ -36,8 +36,6 @@ LIBS:philips
 LIBS:nxp
 LIBS:matts_components
 LIBS:linear2
-LIBS:ds3231
-LIBS:micro_sd
 LIBS:RELogger_PCB_v1-cache
 EELAYER 25 0
 EELAYER END
@@ -76,6 +74,14 @@ Text HLabel 5450 3600 0    60   Input ~ 0
 D12
 Text HLabel 5450 3850 3    60   Input ~ 0
 GND
+Text Label 5500 3300 0    60   ~ 0
+SD_CS
+Text Label 5500 3400 0    60   ~ 0
+MOSI
+Text Label 5500 3500 0    60   ~ 0
+SCK
+Text Label 5500 3600 0    60   ~ 0
+MISO
 Wire Wire Line
 	5450 3200 5800 3200
 Wire Wire Line
@@ -87,15 +93,7 @@ Wire Wire Line
 Wire Wire Line
 	5450 3600 5800 3600
 Wire Wire Line
-	5800 3700 5450 3700
-Wire Wire Line
 	5450 3700 5450 3850
-Text Label 5500 3300 0    60   ~ 0
-SD_CS
-Text Label 5500 3400 0    60   ~ 0
-MOSI
-Text Label 5500 3500 0    60   ~ 0
-SCK
-Text Label 5500 3600 0    60   ~ 0
-MISO
+Wire Wire Line
+	5800 3700 5450 3700
 $EndSCHEMATC

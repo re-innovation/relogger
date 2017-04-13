@@ -1,4 +1,4 @@
-update=12/04/2017 15:22:17
+update=13/04/2017 18:35:47
 last_client=kicad
 [cvpcb]
 version=1
@@ -46,19 +46,9 @@ LibName17=matts_components
 LibName18=diy_crystals
 LibName19=crystal
 LibName20=ref-packages
-[schematic_editor]
-version=1
-PageLayoutDescrFile=
-PlotDirectoryName=
-SubpartIdSeparator=0
-SubpartFirstId=65
-NetFmtName=
-SpiceForceRefPrefix=0
-SpiceUseNetNumbers=0
-LabSize=60
 [eeschema]
 version=1
-LibDir=../../../../GitHub/kicad_reinnovation/KiCad My Libraries;../../../../GitHub/kicad_reinnovation/KiCAD PRETTY
+LibDir=../../../../../../KiCAD/kicad_reinnovation/KiCad My Libraries
 [eeschema/libraries]
 LibName1=RELogger_PCB_v1-rescue
 LibName2=power
@@ -99,3 +89,13 @@ LibName36=matts_components
 LibName37=linear2
 LibName38=ds3231
 LibName39=micro_sd
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=Pcbnew
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
+LabSize=60

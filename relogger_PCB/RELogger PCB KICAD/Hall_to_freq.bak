@@ -36,8 +36,6 @@ LIBS:philips
 LIBS:nxp
 LIBS:matts_components
 LIBS:linear2
-LIBS:ds3231
-LIBS:micro_sd
 LIBS:RELogger_PCB_v1-cache
 EELAYER 25 0
 EELAYER END
@@ -72,7 +70,17 @@ P 6700 3250
 F 0 "U6" H 6850 3400 50  0000 C CNN
 F 1 "LM393" H 6950 3100 50  0000 C CNN
 F 2 "" H 6700 3250 50  0000 C CNN
-F 3 "" H 6700 3250 50  0000 C CNN
+F 3 "http://docs-europe.electrocomponents.com/webdocs/13e4/0900766b813e452a.pdf" H 6700 3250 50  0001 C CNN
+F 4 "~" H 6700 3250 60  0000 C CNN "Notes"
+F 5 "Op Amp" H 6700 3250 60  0001 C CNN "Description"
+F 6 "ON Semi" H 6700 3250 60  0001 C CNN "Manufacturer"
+F 7 "LM393NG" H 6700 3250 60  0001 C CNN "Manufacturer Part No"
+F 8 "RS" H 6700 3250 60  0001 C CNN "Supplier 1"
+F 9 "463-870" H 6700 3250 60  0001 C CNN "Supplier 1 Part No"
+F 10 "0.25" H 6700 3250 60  0001 C CNN "Supplier 1 Cost"
+F 11 "~" H 6700 3250 60  0001 C CNN "Supplier 2"
+F 12 "~" H 6700 3250 60  0001 C CNN "Supplier 2 Part No"
+F 13 "~" H 6700 3250 60  0001 C CNN "Supplier 2 Cost"
 	1    6700 3250
 	1    0    0    -1  
 $EndComp
@@ -135,7 +143,7 @@ L POT-RESCUE-RELogger_PCB_v1 RV1
 U 1 1 57B16B0C
 P 5550 3350
 F 0 "RV1" H 5550 3250 50  0000 C CNN
-F 1 "POT" H 5550 3350 50  0000 C CNN
+F 1 "100k" H 5550 3350 50  0000 C CNN
 F 2 "" H 5550 3350 50  0000 C CNN
 F 3 "" H 5550 3350 50  0000 C CNN
 	1    5550 3350
