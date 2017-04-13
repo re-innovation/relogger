@@ -36,6 +36,8 @@ LIBS:philips
 LIBS:nxp
 LIBS:matts_components
 LIBS:linear2
+LIBS:ds3231
+LIBS:micro_sd
 LIBS:RELogger_PCB_v1-cache
 EELAYER 25 0
 EELAYER END
@@ -102,7 +104,7 @@ F 3 "" H 10900 5900 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED-RESCUE-RELogger_PCB_v1 D5
+L LED-RESCUE-RELogger_PCB_v1-RESCUE-RELogger_PCB_v1 D5
 U 1 1 500E6CBF
 P 8000 3850
 F 0 "D5" H 8000 3950 50  0000 C CNN
@@ -177,8 +179,7 @@ F3 "D11" I L 7350 1650 60
 F4 "D12" I L 7350 1550 60 
 F5 "D13" I L 7350 1450 60 
 F6 "3V3" I L 7350 1250 60 
-F7 "CD" O L 7350 1850 60 
-F8 "Vss" I L 7350 2000 60 
+F7 "GND" I L 7350 2000 60 
 $EndSheet
 $Sheet
 S 5050 1200 1450 2200
@@ -210,7 +211,9 @@ F23 "GND" I L 5050 1950 60
 F24 "VREF" I L 5050 1550 60 
 F25 "D8" I R 6500 2250 60 
 F26 "D9" I R 6500 2150 60 
-F27 "V_USB" O L 5050 2300 60 
+F28 "A6" I L 5050 3150 60 
+F29 "A7" I L 5050 3250 60 
+F30 "5v" I L 5050 2300 60 
 $EndSheet
 $Sheet
 S 1700 6450 800  850 
@@ -221,7 +224,7 @@ F2 "A5/SCL" O R 2500 6700 60
 F3 "A4/SDA" I R 2500 6800 60 
 F4 "+" I L 1700 6750 60 
 F5 "GND" I L 1700 6900 60 
-F6 "D2/INT" O R 2500 7000 60 
+F6 "D2/SQW" O R 2500 7000 60 
 $EndSheet
 $Sheet
 S 2050 800  850  1500
@@ -337,7 +340,7 @@ F 3 "" H 8450 800 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L LED-RESCUE-RELogger_PCB_v1 D6
+L LED-RESCUE-RELogger_PCB_v1-RESCUE-RELogger_PCB_v1 D6
 U 1 1 54658A3E
 P 8150 800
 F 0 "D6" H 8150 900 50  0000 C CNN
@@ -427,8 +430,6 @@ F 3 "" H 1550 2200 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 Text HLabel 3450 1400 2    60   Output ~ 0
-Vss
-Text HLabel 7150 2000 0    60   Input ~ 0
 Vss
 Text HLabel 4850 1650 0    60   Input ~ 0
 Vss
@@ -558,12 +559,6 @@ Wire Wire Line
 Wire Wire Line
 	1700 6750 1550 6750
 Wire Wire Line
-	6700 1850 7350 1850
-Wire Wire Line
-	6500 2150 6700 2150
-Wire Wire Line
-	6700 2150 6700 1850
-Wire Wire Line
 	7950 800  7850 800 
 Wire Wire Line
 	8350 800  8450 800 
@@ -594,8 +589,6 @@ Wire Wire Line
 Wire Wire Line
 	7250 800  7250 1450
 Connection ~ 7250 1450
-Wire Wire Line
-	7150 2000 7350 2000
 Wire Wire Line
 	4450 1750 5050 1750
 Wire Wire Line
@@ -654,12 +647,6 @@ Connection ~ 2750 5600
 Wire Wire Line
 	1750 5700 2850 5700
 Connection ~ 2850 5700
-Wire Wire Line
-	2900 1700 3600 1700
-Wire Wire Line
-	3600 1700 3600 2300
-Wire Wire Line
-	3600 2300 5050 2300
 $Comp
 L CONN_4 P5
 U 1 1 5464B8E3
@@ -738,7 +725,7 @@ Wire Wire Line
 	4400 7300 4400 7200
 Connection ~ 4400 7200
 $Comp
-L ZENER D1
+L ZENER-RESCUE-RELogger_PCB_v1 D1
 U 1 1 57A777BA
 P 3550 3300
 F 0 "D1" H 3550 3400 50  0000 C CNN
@@ -749,7 +736,7 @@ F 3 "" H 3550 3300 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L ZENER D2
+L ZENER-RESCUE-RELogger_PCB_v1 D2
 U 1 1 57A77978
 P 3850 3300
 F 0 "D2" H 3850 3400 50  0000 C CNN
@@ -760,7 +747,7 @@ F 3 "" H 3850 3300 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L ZENER D3
+L ZENER-RESCUE-RELogger_PCB_v1 D3
 U 1 1 57A77B3F
 P 4150 3300
 F 0 "D3" H 4150 3400 50  0000 C CNN
@@ -771,7 +758,7 @@ F 3 "" H 4150 3300 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L ZENER D4
+L ZENER-RESCUE-RELogger_PCB_v1 D4
 U 1 1 57A77CFD
 P 4450 3300
 F 0 "D4" H 4450 3400 50  0000 C CNN
@@ -1366,4 +1353,12 @@ Wire Wire Line
 	3050 1250 2900 1250
 Text Notes 8350 3600 0    60   ~ 0
 Do all calibration on SD card file?
+Text Label 6500 1750 0    60   ~ 0
+SD_CS
+Text Label 6500 1650 0    60   ~ 0
+MOSI
+Text Label 6500 1550 0    60   ~ 0
+MISO
+Text Label 6500 1450 0    60   ~ 0
+SCK
 $EndSCHEMATC

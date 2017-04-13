@@ -36,6 +36,8 @@ LIBS:philips
 LIBS:nxp
 LIBS:matts_components
 LIBS:linear2
+LIBS:ds3231
+LIBS:micro_sd
 LIBS:RELogger_PCB_v1-cache
 EELAYER 25 0
 EELAYER END
@@ -373,9 +375,11 @@ Wire Wire Line
 Wire Wire Line
 	8600 2450 8600 2350
 $Comp
-L LED D13
+L LED-RESCUE-RELogger_PCB_v1-RESCUE-RELogger_PCB_v1 D13
 U 1 1 57A0C9C8
 P 6050 4750
+AR Path="/57A0C9C8" Ref="D13"  Part="1" 
+AR Path="/546244C7/57A0C9C8" Ref="D13"  Part="1" 
 F 0 "D13" H 6050 4850 50  0000 C CNN
 F 1 "LED" H 6050 4650 50  0000 C CNN
 F 2 "" H 6050 4750 50  0000 C CNN

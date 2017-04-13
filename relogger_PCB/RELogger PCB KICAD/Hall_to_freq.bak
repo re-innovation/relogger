@@ -36,6 +36,8 @@ LIBS:philips
 LIBS:nxp
 LIBS:matts_components
 LIBS:linear2
+LIBS:ds3231
+LIBS:micro_sd
 LIBS:RELogger_PCB_v1-cache
 EELAYER 25 0
 EELAYER END
@@ -129,7 +131,7 @@ Connection ~ 6200 2300
 Connection ~ 6600 3800
 Connection ~ 6600 2300
 $Comp
-L POT RV1
+L POT-RESCUE-RELogger_PCB_v1 RV1
 U 1 1 57B16B0C
 P 5550 3350
 F 0 "RV1" H 5550 3250 50  0000 C CNN
@@ -178,7 +180,7 @@ F 3 "" H 7550 2800 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L ZENER D16
+L ZENER-RESCUE-RELogger_PCB_v1 D16
 U 1 1 57B7AFA3
 P 4800 3400
 F 0 "D16" H 4800 3500 50  0000 C CNN

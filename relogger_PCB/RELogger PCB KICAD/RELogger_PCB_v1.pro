@@ -1,4 +1,4 @@
-update=11/04/2017 11:45:45
+update=12/04/2017 15:22:17
 last_client=kicad
 [cvpcb]
 version=1
@@ -58,7 +58,7 @@ SpiceUseNetNumbers=0
 LabSize=60
 [eeschema]
 version=1
-LibDir=../../../../../../../KiCAD/KiCad My Libraries
+LibDir=../../../../GitHub/kicad_reinnovation/KiCad My Libraries;../../../../GitHub/kicad_reinnovation/KiCAD PRETTY
 [eeschema/libraries]
 LibName1=RELogger_PCB_v1-rescue
 LibName2=power
@@ -97,3 +97,5 @@ LibName34=philips
 LibName35=nxp
 LibName36=matts_components
 LibName37=linear2
+LibName38=ds3231
+LibName39=micro_sd
