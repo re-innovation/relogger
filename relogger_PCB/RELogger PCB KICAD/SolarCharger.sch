@@ -36,6 +36,8 @@ LIBS:philips
 LIBS:nxp
 LIBS:matts_components
 LIBS:linear2
+LIBS:ds3231
+LIBS:micro_sd
 LIBS:RELogger_PCB_v1-cache
 EELAYER 25 0
 EELAYER END
@@ -458,7 +460,7 @@ Text HLabel 4100 3050 0    60   Input ~ 0
 V_USB
 Connection ~ 7200 3050
 $Comp
-L SPST SW3
+L SPST-RESCUE-RELogger_PCB_v1 SW3
 U 1 1 57B5BF9D
 P 10550 3350
 F 0 "SW3" H 10550 3450 50  0000 C CNN
@@ -492,7 +494,7 @@ Wire Wire Line
 Wire Wire Line
 	8150 5050 9150 5050
 $Comp
-L MCP1826S U2
+L MCP1826S-RESCUE-RELogger_PCB_v1 U2
 U 1 1 58F214B0
 P 9550 5100
 F 0 "U2" H 9700 4904 60  0000 C CNN

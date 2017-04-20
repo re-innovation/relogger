@@ -1,4 +1,4 @@
-update=18/04/2017 11:23:52
+update=20/04/2017 12:47:56
 last_client=kicad
 [cvpcb]
 version=1
@@ -58,7 +58,7 @@ SpiceUseNetNumbers=0
 LabSize=60
 [eeschema]
 version=1
-LibDir=../../../../../../KiCAD/kicad_reinnovation/KiCad My Libraries
+LibDir=../../../../GitHub/kicad_reinnovation/KiCad My Libraries
 [eeschema/libraries]
 LibName1=RELogger_PCB_v1-rescue
 LibName2=power
