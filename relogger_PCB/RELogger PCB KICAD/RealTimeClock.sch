@@ -36,8 +36,6 @@ LIBS:philips
 LIBS:nxp
 LIBS:matts_components
 LIBS:linear2
-LIBS:ds3231
-LIBS:micro_sd
 LIBS:RELogger_PCB_v1-cache
 EELAYER 25 0
 EELAYER END
