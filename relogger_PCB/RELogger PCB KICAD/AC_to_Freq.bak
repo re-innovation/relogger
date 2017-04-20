@@ -65,7 +65,7 @@ U 1 1 57B10CC2
 P 5300 4000
 F 0 "OPTO1" H 5112 4177 40  0000 C CNN
 F 1 "VO615A" H 5450 3800 40  0000 C CNN
-F 2 "REInnovationFootprint:DIP-8_300_ELL" H 5650 3750 29  0001 C CNN
+F 2 "REInnovationFootprint:DIP-4_300_ELL" H 5650 3750 29  0001 C CNN
 F 3 "http://docs-europe.electrocomponents.com/webdocs/1196/0900766b81196e5a.pdf" H 5300 4000 60  0001 C CNN
 F 4 "~" H 5300 4000 60  0000 C CNN "Notes"
 F 5 "Opto-coupler" H 5300 4000 60  0001 C CNN "Description"

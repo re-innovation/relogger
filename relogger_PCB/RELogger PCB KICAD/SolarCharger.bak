@@ -127,27 +127,6 @@ F 3 "" H 6700 4800 60  0000 C CNN
 	1    6700 4800
 	1    0    0    -1  
 $EndComp
-$Comp
-L MCP1703-Matt U4
-U 1 1 5467B677
-P 9550 5100
-F 0 "U4" H 9700 4904 60  0000 C CNN
-F 1 "MCP1826S" H 9550 5300 60  0000 C CNN
-F 2 "matts_components:TO220_7805_Vert" H 9550 5100 60  0001 C CNN
-F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22057B.pdf" H 9550 5100 60  0001 C CNN
-F 4 "~" H 9550 5100 60  0000 C CNN "Notes"
-F 5 "1A LDO low Iq" H 9550 5100 60  0001 C CNN "Description"
-F 6 "Microchip" H 9550 5100 60  0001 C CNN "Manufacturer"
-F 7 "MCP1826S-3302E/AB" H 9550 5100 60  0001 C CNN "Manufacturer Part No"
-F 8 "RS" H 9550 5100 60  0001 C CNN "Supplier 1"
-F 9 "669-5174" H 9550 5100 60  0001 C CNN "Supplier 1 Part No"
-F 10 "0.76" H 9550 5100 60  0001 C CNN "Supplier 1 Cost"
-F 11 "~" H 9550 5100 60  0001 C CNN "Supplier 2"
-F 12 "~" H 9550 5100 60  0001 C CNN "Supplier 2 Part No"
-F 13 "~" H 9550 5100 60  0001 C CNN "Supplier 2 Cost"
-	1    9550 5100
-	1    0    0    -1  
-$EndComp
 Text HLabel 4400 4450 0    60   Input ~ 0
 BATT+
 Wire Wire Line
@@ -347,7 +326,7 @@ U 1 1 57A0AB0E
 P 9150 2550
 F 0 "Q2" H 9450 2600 50  0000 R CNN
 F 1 "RFU9110PBF" H 9800 2500 50  0000 R CNN
-F 2 "matts_components:TO92_FET_N" H 9350 2650 50  0001 C CNN
+F 2 "REInnovationFootprint:TO220_P_FET" H 9350 2650 50  0001 C CNN
 F 3 "http://docs-europe.electrocomponents.com/webdocs/0791/0900766b807912ad.pdf" H 9150 2550 50  0001 C CNN
 F 4 "~" H 9150 2550 60  0000 C CNN "Notes"
 F 5 "3.1A P FET" H 9150 2550 60  0001 C CNN "Description"
@@ -512,4 +491,15 @@ Wire Wire Line
 	6200 3050 7200 3050
 Wire Wire Line
 	8150 5050 9150 5050
+$Comp
+L MCP1826S U2
+U 1 1 58F214B0
+P 9550 5100
+F 0 "U2" H 9700 4904 60  0000 C CNN
+F 1 "MCP1826S" H 9550 5300 60  0000 C CNN
+F 2 "REInnovationFootprint:TO220_MCP1826S" H 9550 5100 60  0001 C CNN
+F 3 "" H 9550 5100 60  0000 C CNN
+	1    9550 5100
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
