@@ -686,6 +686,16 @@ F 0 "F2" H 1500 4450 50  0000 C CNN
 F 1 "100mA" H 1250 4350 50  0000 C CNN
 F 2 "REInnovationFootprint:TH_MC36188_FUSE" H 1400 4400 50  0001 C CNN
 F 3 "" H 1400 4400 50  0000 C CNN
+F 4 "~" H 1400 4400 60  0000 C CNN "Notes"
+F 5 "Resettable fuse. 0.1A" H 1400 4400 60  0001 C CNN "Description"
+F 6 "~" H 1400 4400 60  0001 C CNN "Manufacturer"
+F 7 "~" H 1400 4400 60  0001 C CNN "Manufacturer Part No"
+F 8 "RS" H 1400 4400 60  0001 C CNN "Supplier 1"
+F 9 "869-7416" H 1400 4400 60  0001 C CNN "Supplier 1 Part No"
+F 10 "0.363" H 1400 4400 60  0001 C CNN "Supplier 1 Cost"
+F 11 "~" H 1400 4400 60  0001 C CNN "Supplier 2"
+F 12 "~" H 1400 4400 60  0001 C CNN "Supplier 2 Part No"
+F 13 "~" H 1400 4400 60  0001 C CNN "Supplier 2 Cost"
 	1    1400 4400
 	1    0    0    -1  
 $EndComp
@@ -842,6 +852,16 @@ F 0 "F1" H 1550 1800 50  0000 C CNN
 F 1 "500mA" H 1250 1700 50  0000 C CNN
 F 2 "REInnovationFootprint:TH_MC36201_FUSE" H 1450 1750 50  0001 C CNN
 F 3 "" H 1450 1750 50  0000 C CNN
+F 4 "~" H 1450 1750 60  0000 C CNN "Notes"
+F 5 "Resettable fuse. 0.5A" H 1450 1750 60  0001 C CNN "Description"
+F 6 "~" H 1450 1750 60  0001 C CNN "Manufacturer"
+F 7 "~" H 1450 1750 60  0001 C CNN "Manufacturer Part No"
+F 8 "RS" H 1450 1750 60  0001 C CNN "Supplier 1"
+F 9 "517-6635" H 1450 1750 60  0001 C CNN "Supplier 1 Part No"
+F 10 "0.27" H 1450 1750 60  0001 C CNN "Supplier 1 Cost"
+F 11 "~" H 1450 1750 60  0001 C CNN "Supplier 2"
+F 12 "~" H 1450 1750 60  0001 C CNN "Supplier 2 Part No"
+F 13 "~" H 1450 1750 60  0001 C CNN "Supplier 2 Cost"
 	1    1450 1750
 	1    0    0    -1  
 $EndComp

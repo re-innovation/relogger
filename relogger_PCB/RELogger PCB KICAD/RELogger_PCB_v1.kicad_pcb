@@ -2936,13 +2936,13 @@
       (solder_mask_margin 5) (solder_paste_margin -5) (clearance 5))
   )
 
-  (module CuriousElectric3:TCEC_Words_13mm (layer Front) (tedit 0) (tstamp 58F874ED)
+  (module CuriousElectric3:TCEC_Words_13mm (layer Front) (tedit 58F8CE9D) (tstamp 58F874ED)
     (at 118.364 93.218)
     (path /58F8AC2F)
     (fp_text reference LOGO2 (at 0 5) (layer F.SilkS) hide
       (effects (font (thickness 0.3)))
     )
-    (fp_text value CONN_1 (at 0 0) (layer F.SilkS)
+    (fp_text value CONN_1 (at 0 0) (layer F.SilkS) hide
       (effects (font (thickness 0.15)))
     )
     (fp_poly (pts (xy 0.27 0.27) (xy 0.36 0.27) (xy 0.36 0.36) (xy 0.27 0.36)
