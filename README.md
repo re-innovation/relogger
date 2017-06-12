@@ -66,6 +66,7 @@ We need to ensure headroom above the maximum required input voltage to ensure no
 DC Current is measured by a range of different sensors. These generally give an output voltage which is linearly proportional to the current, but sometimes with an offset. More information here: 
 
 https://www.re-innovation.co.uk/docs/dc-current-measurement/ 
+
 https://www.re-innovation.co.uk/docs/acs756-current-measurements/
 
 So we need to know the gradient and the offset for the sensor.
