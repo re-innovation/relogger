@@ -83,5 +83,5 @@ This requires installation of a library to read the data from this sensor, which
 
 Analog temperature sensors include thermistors and thermo-couples.
 These sensors will also require specific libraries to convert from the voltage readign into a temperature, as thermistors are usually non-linear.
-This section needx work to implement and a decision on which type of temperature sensors uses is required. 
+This section needs work to implement and a decision on which type of temperature sensors uses is required. 
 
