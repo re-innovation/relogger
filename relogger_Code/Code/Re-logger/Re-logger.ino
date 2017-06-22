@@ -1,14 +1,11 @@
-#include <PinChangeInt.h>
-
 #include <Adafruit_NeoPixel.h>
 
+#include <EEPROMex.h>
+
 #include <SPI.h>
-#include <BlockDriver.h>
-#include <FreeStack.h>
-#include <MinimumSerial.h>
+
 #include <SdFat.h>
 #include <SdFatConfig.h>
-#include <SysCall.h>
 
 #include <DS3231.h>
 
@@ -20,16 +17,24 @@
 #include <avr/wdt.h>
 #include <avr/pgmspace.h>
 
+#include <PinChangeInt.h>
+
+#include <Mcp3208.h>
+
 #define RGB_LED_PIN    6
 #define NUMPIXELS      1
 
-#define SD_CS_PIN      SS
+#define SD_CS_PIN      10
 
-#define ONE_WIRE_BUS   6
+#define ONE_WIRE_BUS   7        // Choose a default PIN
 
 #define DOWN_BUTTON    5
 
 #define RTC_INT_PIN    2
+
+#define SPI_CS      9        // SPI slave select
+#define ADC_VREF    3300     // 3.3V Vref
+#define ADC_CLK     1600000  // SPI clock 1.6MHz
 
 DS3231  rtc(A4, A5);
 
@@ -41,10 +46,9 @@ Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, RGB_LED_PIN, NEO_GRB + N
 SdFat SD;
 File myFile;
 
-int k = 0;
-int k_1 = 0;
+MCP3208 adc(ADC_VREF, SPI_CS);
 
-char firstTimeWS = 1;
+char justCreated = 0;
 int cptBuff1 = 0;
 int cptPulse1 = 0;
 int cptBuff2 = 0;
@@ -53,16 +57,15 @@ int cptST = 0;
 char rtc_flag = 0;
 volatile int f_wdt=1; 
 
-char test_at[5] = "1234";
-int res;
+char firstTimeWS1 = 1;
+char firstTimeWS2 = 1;
+
 char flagWriteData = 0;
-char car = 0;
 
 int sampleTime = 0;
 
 int dataNumber = -1;
-char dateFile[20];
-char pathMes[30];
+char pathMes[15];
 
 // Structure that stores the informations for one value to measure
 struct dataToRead {
@@ -84,17 +87,18 @@ int sensorValues[10];
 // Array that stores the measured values after the conversion from sensorValues to measuredValues
 float measuredValues[10];
 
+char firstTime[10] = {1,1,1,1,1,1,1,1,1,1};
+
 /*********************************************************/
 void setup() {
   // put your setup code here, to run once:
   char valid = 0;
-  String pathDate;
 
   /*
    * Begin() of all libraries
    */  
   
-  Serial.begin(9600);
+  Serial.begin(115200);
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }
@@ -111,30 +115,22 @@ void setup() {
   rtc.begin();
 
   /*
+   * Init the MCP3208 (A to D converter)
+   */
+   
+   pinMode(SPI_CS, OUTPUT);
+   digitalWrite(SPI_CS, HIGH);
+   SPISettings settings(ADC_CLK, MSBFIRST, SPI_MODE0);
+   SPI.begin();
+   SPI.beginTransaction(settings);
+
+  /*
    * Set the date
    */
    
-  /*do{
+  do{
   valid = setDte();
-  }while(valid == 0);*/
-
-  /*
-   * Create a file if doesn't exists
-   */
-
-  pathDate = "Re-Logger/";
-  pathDate.concat(rtc.getDateStr());
-  pathDate.concat(".csv");
-  //Serial.println(pathDate);
-  pathDate.toCharArray(pathMes, 30);
-  //Serial.println(pathMes);
-  if (!myFile.exists(pathMes))
-  {
-    if (!myFile.open(pathMes, O_CREAT | O_WRITE)) {
-      Serial.println("fail create File");
-    }
-    myFile.close();
-  }
+  }while(valid == 0);
 
   /*
    * Init the watchdog timer
@@ -148,33 +144,23 @@ void setup() {
   /*
    * Read config file and parse it
    */
+
+  if (!SD.chdir("Re-Logger", true)) {
+    Serial.println("Already");
+  }
+    
   getFileFormat();
 
   delay(1000);
 
-  Serial.println(sampleTime);
-  Serial.println(fileFormat[0].dataPin);
-  Serial.println(fileFormat[0].dataName);
-  Serial.println(fileFormat[0].dataType);
-  Serial.println(fileFormat[0].dataCal1);
-  Serial.println(fileFormat[0].dataCal2);
-  Serial.println(fileFormat[0].dataUnit);
-  Serial.println(fileFormat[0].dataAD);
+  /*
+   * Create a file if doesn't exists
+   */
+   
+  checkFileDate();
 
   delay(1000);
-
-  Serial.println(fileFormat[1].dataPin);
-  Serial.println(fileFormat[1].dataName);
-  Serial.println(fileFormat[1].dataType);
-  Serial.println(fileFormat[1].dataCal1);
-  Serial.println(fileFormat[1].dataCal2);
-  Serial.println(fileFormat[1].dataUnit);
-  Serial.println(fileFormat[1].dataAD);
-
-  delay(1000);
-
-  writeHeaderOnFile();
-
+   
   /*
    * Init the RTC "interrupt"
    */  
@@ -184,145 +170,79 @@ void setup() {
   pinMode(RTC_INT_PIN, INPUT);
 
   attachInterrupt(digitalPinToInterrupt(RTC_INT_PIN), rtc_ISR, RISING);
-  
+
+  /*
+   * Set sleep mode
+   */
   
   set_sleep_mode(SLEEP_MODE_PWR_DOWN);
 }
 
 void loop() {
   String pathDate;
-  // put your main code here, to run repeatedly:
-  
+    
   if(rtc_flag == 1)
   {
     rtc_flag = 0;
-  
+
+    // Update the pulses's buffers and reset the pulses's counters
     cptBuff1 = cptPulse1;
     cptBuff2 = cptPulse2;
     cptPulse1 = 0;
     cptPulse2 = 0;
   
-    //read data
-
+    // Read data
     readSensorValues();
+
+    // Convert the value form raw sensor values to the measured values
     conversion();
     
-    //average data
-    
-    //check if write data
-    
+    // Check if write data
     if (cptST >= sampleTime)
     {
+      for (int i=0; i<=dataNumber; i++)
+      {
+        firstTime[i] = 1;
+      }
       cptST = 0;
       flagWriteData = 1;
+      
     }
   }
   
-  
-  
-  //enable sleep
+  // Enable sleep
   sleep_enable();
-
+  //Serial.print("enter sleep");
+  //Serial.flush();
   sleep_mode();
-
+  
+  // Disable sleep
   sleep_disable();
-
+  //Serial.print("awake");
   power_all_enable();
   
   if(f_wdt == 1)
   {
-    // disable sleep
     if(flagWriteData == 1)
     {
       flagWriteData = 0;
-      /*
-      //check file
-      pathDate = "Re-Logger/";
-      pathDate.concat(rtc.getDateStr());
-      pathDate.concat(".csv");
-      //Serial.println(pathDate);
-      pathDate.toCharArray(pathMes, 30);
-      //Serial.println(pathMes);
-      if (!myFile.exists(pathMes))
-      {
-        if (!myFile.open(pathMes, O_CREAT | O_WRITE)) {
-          Serial.println("fail create File");
-        }
-        myFile.close();
-      }
-
-      //write data on file
-      writeDataOnFile();
-      */
       
+      // Check file
+      checkFileDate();
+      
+      // Write data on file
+      writeDataOnFile();
     }
     f_wdt = 0;
 
-    //update LED
+    // Update LED
 
 
-    //check switchs
+    // Check switches
     
-  }
-
-
-  
-  /*Serial.println(sampleTime);
-  Serial.println(fileFormat[0].dataPin);
-  Serial.println(fileFormat[0].dataName);
-  Serial.println(fileFormat[0].dataType);
-  Serial.println(fileFormat[0].dataCal1);
-  Serial.println(fileFormat[0].dataCal2);
-  Serial.println(fileFormat[0].dataUnit);
-  Serial.println(fileFormat[0].dataAD);*/
-
-  //writeOnFile();
-
-
-  /*k = digitalRead(RTC_INT_PIN);
-  if(k!=k_1)
-  {
-    if(k>k_1){
-      rtc_flag = 1;}
-    k_1 = digitalRead(RTC_INT_PIN);
-  }
-  else
-  {
-    rtc_flag = 0;
-  }
-  
-  if(rtc_flag == 1)
-  {
     
-  }*/
-
-  /*  Serial.print(rtc.getDOWStr());
-  Serial.print(" ");
-  
-  // Send date
-  Serial.print(rtc.getDateStr());
-  Serial.print(" -- ");
-
-  // Send time
-  Serial.println(rtc.getTimeStr());
-  
-  // Wait one second before repeating :
-  delay (1000);*/
-
-  /*getFileFormat();
-
-  Serial.println(sampleTime);
-  Serial.println(fileFormat[0].dataPin);
-  Serial.println(fileFormat[0].dataName);
-  Serial.println(fileFormat[0].dataType);
-  Serial.println(fileFormat[0].dataCal1);
-  Serial.println(fileFormat[0].dataCal2);
-  Serial.println(fileFormat[0].dataUnit);
-
-  delay(1000);*/
-  
+  }  
 }
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -355,19 +275,24 @@ ISR(WDT_vect)                             //Watchdog Interrupt Service. This is 
   }
   else
   {
-             //Serial.println("WDT Overrun!!!");
+    
   }
 }
 
-
-
-
+/*
+ * Print an error message in the config file
+ */
+ 
 void error()
 {
   Serial.println("error");
-  Serial.println("please re-write the config file");
+  Serial.println("re-write config");
 }
 
+/*
+ * The user sets the date
+ */
+ 
 char setDte()
 {
   char valid = 0;
@@ -407,7 +332,6 @@ char setDte()
     }
     else
     {
-      //Serial.println("error");
       return(0);
     }
   }while(valid == 0);
@@ -430,7 +354,6 @@ char setDte()
       }
       else
       {
-        //Serial.println("error");
         return(0);
       }
   }while(valid == 0);
@@ -452,7 +375,6 @@ char setDte()
       }
       else
       {
-        //Serial.println("error");
         return(0);
       }
   }while(valid == 0);
@@ -474,12 +396,10 @@ char setDte()
       }
       else
       {
-        //Serial.println("error");
         return(0);
       }
   }while(valid == 0);
   valid = 0;
-  rtc.setTime(ho, mi, se);     // Set the time to 12:00:00 (24hr format)
   Serial.print("day of the month : ");
     do{
       do{
@@ -497,7 +417,6 @@ char setDte()
       }
       else
       {
-        //Serial.println("error");
         return(0);
       }
   }while(valid == 0);
@@ -519,7 +438,6 @@ char setDte()
       }
       else
       {
-        //Serial.println("error");
         return(0);
       } 
   }while(valid == 0);
@@ -549,15 +467,19 @@ char setDte()
       }
       else
       {
-        //Serial.println("error");
         return(0);
       }
   }while(valid == 0);
   valid = 0;
+  rtc.setTime(ho, mi, se);     // Set the time to 12:00:00 (24hr format)
   rtc.setDate(da, mo, ye);
   return(1);
 }
 
+/*
+ * Parsing algorithm of the config file
+ */
+ 
 bool getFileFormat ()   //parameters Sample Time, fileFormat and dataNumber
 {
   char c = 0;
@@ -568,7 +490,7 @@ bool getFileFormat ()   //parameters Sample Time, fileFormat and dataNumber
   bool valid = false;
   bool pass;
   
-  myFile = SD.open("Re-Logger/config.txt");
+  myFile = SD.open("config.txt");
   
   while (myFile.available())
   {
@@ -578,7 +500,7 @@ bool getFileFormat ()   //parameters Sample Time, fileFormat and dataNumber
       if (c == '$')
       {
          pass = true;
-         Serial.print("ok1");
+         //Serial.print("ok1");
       }
     }while (pass == false);
     pass = false;
@@ -589,7 +511,7 @@ bool getFileFormat ()   //parameters Sample Time, fileFormat and dataNumber
       {
         str[cpt] = c;
         cpt++;
-        Serial.print("ok2");
+        //Serial.print("ok2");
       }
       else if ((c == ';') && (cpt <= 4))
       {
@@ -608,7 +530,7 @@ bool getFileFormat ()   //parameters Sample Time, fileFormat and dataNumber
         }
         cpt = 0;
         pass = true;
-        Serial.print("ok3");
+        //Serial.print("ok3");
       }
       else 
       {
@@ -625,11 +547,11 @@ bool getFileFormat ()   //parameters Sample Time, fileFormat and dataNumber
         {
           dataNumber ++;
           pass = true;
-          Serial.print("ok4");
+          //Serial.print("ok4");
         }
         else if (c == '#')
         {
-          Serial.println("ok5");
+          //Serial.println("ok5");
           valid = true;
           return (true);
         }
@@ -655,11 +577,11 @@ bool getFileFormat ()   //parameters Sample Time, fileFormat and dataNumber
         {
           str[cpt] = c;
           cpt++;
-          Serial.print("ok18");
+          //Serial.print("ok18");
         }
         else if ((c == ',') && (cpt <= 1))
         {
-          Serial.print("ok19");
+          //Serial.print("ok19");
           for (i = 0; i<cpt; i++)
           {
             fileFormat[dataNumber].dataAD = str[i];
@@ -685,7 +607,7 @@ bool getFileFormat ()   //parameters Sample Time, fileFormat and dataNumber
         {
           str[cpt] = c;
           cpt++;
-          Serial.print("ok6");
+          //Serial.print("ok6");
         }
         else if ((c == ',') && (cpt <= 2))
         {
@@ -704,7 +626,7 @@ bool getFileFormat ()   //parameters Sample Time, fileFormat and dataNumber
           }
           cpt = 0;
           pass = true;
-          Serial.print("ok7");
+          //Serial.print("ok7");
         }
         else
         {
@@ -720,7 +642,7 @@ bool getFileFormat ()   //parameters Sample Time, fileFormat and dataNumber
         {
           str[cpt] = c;
           cpt ++;
-          Serial.print("ok8");
+          //Serial.print("ok8");
         }
         else if ((c = ',') && (cpt <= 4))
         {
@@ -734,7 +656,7 @@ bool getFileFormat ()   //parameters Sample Time, fileFormat and dataNumber
           }
           cpt = 0;
           pass = true;
-          Serial.print("ok9");
+          //Serial.print("ok9");
         }
         else
         {
@@ -750,7 +672,7 @@ bool getFileFormat ()   //parameters Sample Time, fileFormat and dataNumber
         {
           str[cpt] = c;
           cpt ++;
-          Serial.print("ok10");
+          //Serial.print("ok10");
         }
         else if ((c = ',') && (cpt <= 2))
         {
@@ -764,7 +686,7 @@ bool getFileFormat ()   //parameters Sample Time, fileFormat and dataNumber
           }
           cpt = 0;
           pass = true;
-          Serial.print("ok11");
+          //Serial.print("ok11");
         }
         else
         {
@@ -780,7 +702,7 @@ bool getFileFormat ()   //parameters Sample Time, fileFormat and dataNumber
         {
           str[cpt] = c;
           cpt ++;
-          Serial.print("ok12");
+          //Serial.print("ok12");
         }
         else if ((c = ',') && (cpt <= 4))
         {
@@ -799,7 +721,7 @@ bool getFileFormat ()   //parameters Sample Time, fileFormat and dataNumber
           }
           cpt = 0;
           pass = true;
-          Serial.print("ok13");
+          //Serial.print("ok13");
         }
         else
         {
@@ -815,7 +737,7 @@ bool getFileFormat ()   //parameters Sample Time, fileFormat and dataNumber
         {
           str[cpt] = c;
           cpt ++;
-          Serial.print("ok14");
+          //Serial.print("ok14");
         }
         else if ((c = ',') && (cpt <= 4))
         {
@@ -834,7 +756,7 @@ bool getFileFormat ()   //parameters Sample Time, fileFormat and dataNumber
           }
           cpt = 0;
           pass = true;
-          Serial.print("ok15");
+          //Serial.print("ok15");
         }
         else
         {
@@ -850,11 +772,11 @@ bool getFileFormat ()   //parameters Sample Time, fileFormat and dataNumber
         {
           str[cpt] = c;
           cpt ++;
-          Serial.print("ok16");
+          //Serial.print("ok16");
         }
         else if ((c == ';') && (cpt <= 1))
         {
-          Serial.print("ok17");
+          //Serial.print("ok17");
           for (i = 0; i<cpt; i++)
           {
             fileFormat[dataNumber].dataUnit[i] = str[i];
@@ -873,9 +795,13 @@ bool getFileFormat ()   //parameters Sample Time, fileFormat and dataNumber
         }
       }while (pass == false);
       
-      }
     }
   }
+}
+
+/*
+ * Reads the raw sensor values
+ */
 
 void readSensorValues() // parameters sensorValues[], fileFormat and dataNumber
 {
@@ -884,33 +810,109 @@ void readSensorValues() // parameters sensorValues[], fileFormat and dataNumber
 
   for(i = 0; i <= dataNumber; i++)
   {
-    if (fileFormat[i].dataType == "T")
+    if (fileFormat[i].dataType[0] == 'T')
     {
-      if (fileFormat[i].dataAD == "D")
+      if (fileFormat[i].dataAD == 'D')
       {
         sensors.requestTemperatures();
       }
     }
-    else if (fileFormat[i].dataType == "WS")
+    else if ((fileFormat[i].dataType[0] == 'W') && (fileFormat[i].dataType[1] == 'S'))
     {
-      if (fileFormat[i].dataAD == "D")
+      if (fileFormat[i].dataAD == 'D')
       {
         // nothing
       }
     }
     else
     {
-      sensorValues[i] = digitalRead(fileFormat[i].dataPin);
-      for(j = 0; j < 25; j++)
-        sensorValues[i] = ((sensorValues[i] + digitalRead(fileFormat[i].dataPin)) / 2);
+      if (fileFormat[i].dataAD == 'D')
+      {
+        sensorValues[i] = digitalRead(fileFormat[i].dataPin);
+        for(j = 0; j < 25; j++)
+          sensorValues[i] = ((sensorValues[i] + digitalRead(fileFormat[i].dataPin)) / 2);
+      }
+      else if (fileFormat[i].dataAD == 'A')
+      {
+        switch(fileFormat[i].dataPin)
+        {
+          case 0: 
+          {
+            sensorValues[i] = adc.read(MCP3208::SINGLE_0);
+            Serial.println(sensorValues[i]);
+            Serial.flush();
+            for(j = 0; j < 25; j++)
+              sensorValues[i] = ((sensorValues[i] + adc.read(MCP3208::SINGLE_0)) / 2);
+          }
+          break;
+          case 1:
+          {
+            sensorValues[i] = adc.read(MCP3208::SINGLE_1);
+            for(j = 0; j < 25; j++)
+              sensorValues[i] = ((sensorValues[i] + adc.read(MCP3208::SINGLE_1)) / 2);
+          }
+          break;
+          case 2:
+          {
+            sensorValues[i] = adc.read(MCP3208::SINGLE_2);
+            for(j = 0; j < 25; j++)
+              sensorValues[i] = ((sensorValues[i] + adc.read(MCP3208::SINGLE_2)) / 2);
+          }
+          break;
+          case 3:
+          {
+            sensorValues[i] = adc.read(MCP3208::SINGLE_3);
+            for(j = 0; j < 25; j++)
+              sensorValues[i] = ((sensorValues[i] + adc.read(MCP3208::SINGLE_3)) / 2);
+          }
+          break;
+          case 4:
+          {
+            sensorValues[i] = adc.read(MCP3208::SINGLE_4);
+            for(j = 0; j < 25; j++)
+              sensorValues[i] = ((sensorValues[i] + adc.read(MCP3208::SINGLE_4)) / 2);
+          }
+          break;
+          case 5:
+          {
+            sensorValues[i] = adc.read(MCP3208::SINGLE_5);
+            for(j = 0; j < 25; j++)
+              sensorValues[i] = ((sensorValues[i] + adc.read(MCP3208::SINGLE_5)) / 2);
+          }
+          break;
+          case 6:
+          {
+            sensorValues[i] = adc.read(MCP3208::SINGLE_6);
+            for(j = 0; j < 25; j++)
+              sensorValues[i] = ((sensorValues[i] + adc.read(MCP3208::SINGLE_6)) / 2);
+          }
+          break;
+          case 7:
+          {
+            sensorValues[i] = adc.read(MCP3208::SINGLE_7);
+            for(j = 0; j < 25; j++)
+              sensorValues[i] = ((sensorValues[i] + adc.read(MCP3208::SINGLE_7)) / 2);
+          }
+          break;
+          default:
+          {
+            //nothing
+          }
+        }
+        
+      }
     }
   }
 }
 
-
+/*
+ * Does the conversion from raw values to measured values
+ */
+ 
 void conversion ()     // parameters fileFormat, dataNumber, sensorValues, measuredValues
 {
   int i = 0;
+  char wsCpt = 0;
   int cptPulse = 0;
   float vane = 0.0;
 
@@ -920,11 +922,27 @@ void conversion ()     // parameters fileFormat, dataNumber, sensorValues, measu
     {
       if (fileFormat[i].dataUnit[0] == 'u')
       {
-        measuredValues[i] = ((sensorValues[i] * 3.3 / 1024.0) * ((fileFormat[i].dataCal2 + fileFormat[i].dataCal1) / fileFormat[i].dataCal2));
+        if (firstTime[i] == 1)
+        {
+          firstTime[i] = 0;
+          measuredValues[i] = ((sensorValues[i] * 3.3 / 1024.0) * ((fileFormat[i].dataCal2 + fileFormat[i].dataCal1) / fileFormat[i].dataCal2));
+        }
+        else
+        {
+          measuredValues[i] = ((measuredValues[i] + ((sensorValues[i] * 3.3 / 1024.0) * ((fileFormat[i].dataCal2 + fileFormat[i].dataCal1) / fileFormat[i].dataCal2))) / 2);
+        }
       }
       else if (fileFormat[i].dataUnit[0] == 'm')
       {
-        measuredValues[i] = (((sensorValues[i] * 3.3 / 1024.0) * ((fileFormat[i].dataCal2 + fileFormat[i].dataCal1) / fileFormat[i].dataCal2)) * 1000);
+        if (firstTime[i] == 1)
+        {
+          firstTime[i] = 0;
+          measuredValues[i] = (((sensorValues[i] * 3.3 / 1024.0) * ((fileFormat[i].dataCal2 + fileFormat[i].dataCal1) / fileFormat[i].dataCal2)) * 1000);
+        }
+        else
+        {
+          measuredValues[i] = ((measuredValues[i] + (((sensorValues[i] * 3.3 / 1024.0) * ((fileFormat[i].dataCal2 + fileFormat[i].dataCal1) / fileFormat[i].dataCal2)) * 1000)) / 2);
+        }
       }
         
     }
@@ -932,11 +950,27 @@ void conversion ()     // parameters fileFormat, dataNumber, sensorValues, measu
     {
       if (fileFormat[i].dataUnit[0] == 'u')
       {
-        measuredValues[i] = ((((sensorValues[i] * 3.3 / 1024.0) - fileFormat[i].dataCal2) * 1000) / fileFormat[i].dataCal1);
+        if (firstTime[i] == 1)
+        {
+          firstTime[i] = 0;
+          measuredValues[i] = ((((sensorValues[i] * 3.3 / 1024.0) - fileFormat[i].dataCal2) * 1000) / fileFormat[i].dataCal1);
+        }
+        else
+        {
+          measuredValues[i] = ((measuredValues[i] + ((((sensorValues[i] * 3.3 / 1024.0) - fileFormat[i].dataCal2) * 1000) / fileFormat[i].dataCal1)) / 2);
+        }
       }
       else if (fileFormat[i].dataUnit[0] == 'm')
       {
-        measuredValues[i] = (((((sensorValues[i] * 3.3 / 1024.0) - fileFormat[i].dataCal2) * 1000) / fileFormat[i].dataCal1) * 1000);
+        if (firstTime[i] == 1)
+        {
+          firstTime[i] = 0;
+          measuredValues[i] = (((((sensorValues[i] * 3.3 / 1024.0) - fileFormat[i].dataCal2) * 1000) / fileFormat[i].dataCal1) * 1000);
+        }
+        else
+        {
+          measuredValues[i] = ((measuredValues[i] + (((((sensorValues[i] * 3.3 / 1024.0) - fileFormat[i].dataCal2) * 1000) / fileFormat[i].dataCal1) * 1000)) / 2);
+        }
       }
       
     }
@@ -948,7 +982,15 @@ void conversion ()     // parameters fileFormat, dataNumber, sensorValues, measu
       }
       else if (fileFormat[i].dataAD == 'D')
       {
-        measuredValues[i] = sensors.getTempCByIndex(0);
+        if (firstTime[i] == 1)
+        {
+          firstTime[i] = 0;
+          measuredValues[i] = sensors.getTempCByIndex(0);
+        }
+        else
+        {
+          measuredValues[i] = ((measuredValues[i] + sensors.getTempCByIndex(0)) / 2);
+        }
       }
       else
       {
@@ -956,23 +998,62 @@ void conversion ()     // parameters fileFormat, dataNumber, sensorValues, measu
       }
 
     }
-    else if (fileFormat[i].dataType == "WS")
+    else if ((fileFormat[i].dataType[0] == 'W') && (fileFormat[i].dataType[1] == 'S'))
     {
       if (fileFormat[i].dataAD == 'A')
       {
-        measuredValues[i] = ((sensorValues[i] *3.3 / 1024.0) / fileFormat[i].dataCal1);
-      }
-      else if (fileFormat[i].dataAD == 'D')
-      {
-        if (firstTimeWS == 1)
+        if (firstTime[i] == 1)
         {
-          firstTimeWS = 0;
-          pinMode(fileFormat[i].dataPin, INPUT);
-          PCintPort::attachInterrupt(digitalPinToInterrupt(fileFormat[i].dataPin), pulse1_ISR, RISING);
+          firstTime[i] = 0;
+          measuredValues[i] = ((sensorValues[i] *3.3 / 1024.0) / fileFormat[i].dataCal1);
         }
         else
         {
-          measuredValues[i] = (cptBuff1 / fileFormat[i].dataCal1);     
+          measuredValues[i] = ((measuredValues[i] + ((sensorValues[i] *3.3 / 1024.0) / fileFormat[i].dataCal1)) / 2);
+        }
+      }
+      else if (fileFormat[i].dataAD == 'D')
+      {
+        if (firstTimeWS1 == 1)
+        {
+          firstTimeWS1 = 0;
+          wsCpt++;
+          pinMode(fileFormat[i].dataPin, INPUT);
+          PCintPort::attachInterrupt(digitalPinToInterrupt(fileFormat[i].dataPin), pulse1_ISR, RISING);
+        }
+        else if ((firstTimeWS2 == 1) && (wsCpt == 1))
+        {
+          firstTimeWS2 = 0; 
+          wsCpt++;
+          pinMode(fileFormat[i].dataPin, INPUT);
+          PCintPort::attachInterrupt(digitalPinToInterrupt(fileFormat[i].dataPin), pulse2_ISR, RISING);
+        }
+
+        
+        if ((firstTimeWS1 == 0) && (wsCpt == 0))
+        {
+          wsCpt = 1;
+          if (firstTime[i] == 1)
+          {
+            firstTime[i] = 0;
+            measuredValues[i] = (cptBuff1 / fileFormat[i].dataCal1);
+          }
+          else
+          {
+            measuredValues[i] = ((measuredValues[i] + (cptBuff1 / fileFormat[i].dataCal1)) / 2);
+          }
+        }
+        else if ((firstTimeWS2 == 0) && (wsCpt == 1))
+        {
+          if (firstTime[i] == 1)
+          {
+            firstTime[i] = 0;
+            measuredValues[i] = (cptBuff2 / fileFormat[i].dataCal1);
+          }
+          else
+          {
+            measuredValues[i] = (measuredValues[i] + (cptBuff2 / fileFormat[i].dataCal1)) / 2;
+          }
         }
       }
       else
@@ -980,7 +1061,7 @@ void conversion ()     // parameters fileFormat, dataNumber, sensorValues, measu
        
       }
     }
-    else if (fileFormat[i].dataType == "WV")
+    else if ((fileFormat[i].dataType[0] == 'W') && (fileFormat[i].dataType[1] == 'S'))
     {
       vane = ((sensorValues[i] * 3.3) / 1024.0);
 
@@ -1029,28 +1110,86 @@ void conversion ()     // parameters fileFormat, dataNumber, sensorValues, measu
   }
 }
 
+/*
+ * Writes the header of the file
+ */
+ 
 void writeHeaderOnFile()
 {
   int i = 0;
-  
-  myFile = SD.open(pathMes, FILE_WRITE); 
+  bool passRead = false;
+  char c = 0;
+  char checkSumHeader = 0;
 
-  if (myFile){
-    Serial.print("Writing...");
-    myFile.print(rtc.getDateStr());
-    myFile.print("\t");
-    myFile.print(rtc.getTimeStr());
-    
-    for (i=0; i<=dataNumber; i++)
+  for (i=0; i<=dataNumber; i++)
+  {
+    for (int j=0; j<=3; j++)
     {
-      myFile.print("\t");
-      myFile.print(fileFormat[i].dataName);
+      checkSumHeader = checkSumHeader xor fileFormat[i].dataName[j];
     }
-  // close the file:
-    myFile.close();
-    Serial.println("done.");
+  }
+  if ((checkSumHeader != EEPROM.read(0)) || (justCreated == 1))
+  {
+    justCreated = 0;
+    myFile = SD.open(pathMes, FILE_WRITE); 
+    if (myFile){
+      Serial.print("Writing HEADER...");
+      
+      myFile.print("Date");
+      myFile.print(';');
+      myFile.print("Time");
+      
+      
+      for (i=0; i<=dataNumber; i++)
+      {
+        myFile.print(';');
+        myFile.print(fileFormat[i].dataName);
+        
+        if (fileFormat[i].dataType[0] == 'V')
+        {
+          if (fileFormat[i].dataUnit[0] == 'u')
+          {
+            myFile.print(" (V)");
+          }
+          else if (fileFormat[i].dataUnit[0] == 'm')
+          {
+            myFile.print(" (mV)");
+          }
+        }
+        else if (fileFormat[i].dataType[0] == 'I')
+        {
+          if (fileFormat[i].dataUnit[0] == 'u')
+          {
+            myFile.print(" (A)");
+          }
+          else if (fileFormat[i].dataUnit[0] == 'm')
+          {
+            myFile.print(" (mA)");
+          }
+        }
+        else if (fileFormat[i].dataType[0] == 'T')
+        {
+          myFile.print(" (C)");
+        }
+        else if ((fileFormat[i].dataType[0] == 'W') && (fileFormat[i].dataType[1] == 'S'))
+        {
+          myFile.print(" (m/s)");
+        }
+      }
+      
+      myFile.println(';');
+      
+      // close the file:
+      myFile.close();
+      Serial.println("done.");    
+    }
+    EEPROM.write(0, checkSumHeader);
   }
 }
+
+/*
+ * Writes the data on the file
+ */
 
 void writeDataOnFile() //parameters measuredValues, fileFormat, pathMes
 {
@@ -1059,23 +1198,15 @@ void writeDataOnFile() //parameters measuredValues, fileFormat, pathMes
   myFile = SD.open(pathMes, FILE_WRITE); 
 
   if (myFile){
-    Serial.print("Writing...");
+    Serial.print("Writing DATA...");
+    Serial.flush();
     myFile.print(rtc.getDateStr());
-    myFile.print(",");
+    myFile.print(';');
     myFile.print(rtc.getTimeStr());
+    myFile.print(';');
     
     for (i=0; i<=dataNumber; i++)
     {
-      myFile.print(",");
-      myFile.print(fileFormat[i].dataName);
-    }
-    
-    /*
-    for (i=0; i<=dataNumber; i++)
-    {
-      myFile.print(",");
-      
-      myFile.print(" : ");
       if (fileFormat[i].dataType == "WV")
       {
         if (measuredValues[i] == 1.0)
@@ -1099,49 +1230,55 @@ void writeDataOnFile() //parameters measuredValues, fileFormat, pathMes
       {
         myFile.print(measuredValues[i]);
       }
-
-      myFile.print(",");
-
-      if (fileFormat[i].dataType[0] == 'V')
-      {
-        if (fileFormat[i].dataUnit[0] == 'u')
-        {
-          myFile.println(" V");
-        }
-        else if (fileFormat[i].dataUnit[0] == 'm')
-        {
-          myFile.println(" mV");
-        }
-      }
-      else if (fileFormat[i].dataType[0] == 'I')
-      {
-        if (fileFormat[i].dataUnit[0] == 'u')
-        {
-          myFile.println(" A");
-        }
-        else if (fileFormat[i].dataUnit[0] == 'm')
-        {
-          myFile.println(" mA");
-        }
-      }
-      else if (fileFormat[i].dataType[0] == 'T')
-      {
-        myFile.println(" °C");
-      }
-      else if (fileFormat[i].dataType == "WS")
-      {
-        myFile.println(" m/s");
-      }
-      
-
+      myFile.print(';');
     }
-    myFile.println(" ");
-    */
+    myFile.println(';');
     // close the file:
     myFile.close();
-    Serial.println("done.");
+    Serial.println("done");
+    Serial.flush();
   }
 }
 
+/*
+ * Checks if a file exists with the right name and creates it if not
+ */
 
+void checkFileDate()
+{
+  String pathDate;
+  pathDate = rtc.getDateStr();
+  pathDate.concat(".csv");
+  pathDate.toCharArray(pathMes, 15);
+  if (!SD.exists(pathMes))
+  {
+    if (!SD.open(pathMes, O_CREAT | O_WRITE)) {
+      Serial.println("fail create File");
+    }
+    justCreated = 1;
+    myFile.close();
+  }
+  writeHeaderOnFile();
+}
+
+/*Serial.println(sampleTime);
+  Serial.println(fileFormat[0].dataPin);
+  Serial.println(fileFormat[0].dataName);
+  Serial.println(fileFormat[0].dataType);
+  Serial.println(fileFormat[0].dataCal1);
+  Serial.println(fileFormat[0].dataCal2);
+  Serial.println(fileFormat[0].dataUnit);
+  Serial.println(fileFormat[0].dataAD);
+
+  delay(1000);
+
+  Serial.println(fileFormat[1].dataPin);
+  Serial.println(fileFormat[1].dataName);
+  Serial.println(fileFormat[1].dataType);
+  Serial.println(fileFormat[1].dataCal1);
+  Serial.println(fileFormat[1].dataCal2);
+  Serial.println(fileFormat[1].dataUnit);
+  Serial.println(fileFormat[1].dataAD);
+
+  delay(1000);*/
 
