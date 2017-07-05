@@ -124,5 +124,6 @@ This section needs work to implement and a decision on which type of temperature
 * Sort out Vin connection
 * Serial data connection without power (offset is affected by 5V voltage)
 * Debounce wih buffer/filter
+* Ground connection to SD card unit
 
 
