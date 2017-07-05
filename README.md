@@ -110,20 +110,20 @@ This section needs work to implement and a decision on which type of temperature
 
 # To Do
 
-* PCB redesign with no display. Fits onto solar LiPo unit if needed.
+* PCB redesign with no display. Fits onto solar LiPo unit if needed. - REMOVED DISPLAY
 * PCB design with display shield for front
 * Add protection on the input lines (1N4148 up to + and GND). Over AND undervoltage protection
 * Config on SD card
 * Test Nano power consumption
 * Code full redesign
-* Debounce in hardware
-* HC12 Data connection to Wifi Logger unit
+* Debounce in hardware - DONE
+* HC12 Data connection to Wifi Logger unit - DONE
 
 # Changes to make
 
-* Sort out Vin connection
-* Serial data connection without power (offset is affected by 5V voltage)
-* Debounce wih buffer/filter
-* Ground connection to SD card unit
+* Sort out Vin connection - DONE
+* Serial data connection without power (offset is affected by 5V voltage) - Use serial connector for this
+* Debounce wih buffer/filter- DONE
+* Ground connection to SD card unit - DONE
 
 
