@@ -105,3 +105,17 @@ These sensors will also require specific libraries to convert from the voltage r
 
 This section needs work to implement and a decision on which type of temperature sensors uses is required. 
 
+# Testing in Athens
+
+
+# To Do
+
+* PCB redesign with no display. Fits onto solar LiPo unit if needed.
+* PCB design with display shield for front
+* Add protection on the input lines (1N4148 up to + and GND).
+* Config on SD card
+* Test Nano power consumption
+* Code full redesign
+* Debounce in hardware
+* HC12 Data connection to Wifi Logger unit
+
