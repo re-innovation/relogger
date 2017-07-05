@@ -746,10 +746,10 @@ void loop()
 //      // Voutput is Vref +/- 1.25 * Ip/Ipn 
 //      current1 = (current1*200.0f)/1.25f;
       
-  //    // ********* LEM HASS 50-S******************************************
-  //    //  http://www.lem.com/docs/products/hass_50_600-s.pdf
-  //    // Voutput is Vref +/- 0.625 * Ip/Ipn
-  //    current1 = (current1 * 50.0f) / 0.625f;    
+      // ********* LEM HASS 50-S******************************************
+//      //  http://www.lem.com/docs/products/hass_50_600-s.pdf
+//      // Voutput is Vref +/- 0.625 * Ip/Ipn
+//      current1 = (current1 * 50.0f) / 0.625f;    
   
     
       // ************* ACS*** Hall Effect **********************
