@@ -130,23 +130,6 @@ Connection ~ 6600 3800
 Connection ~ 6600 2300
 Wire Wire Line
 	7000 3250 7450 3250
-$Comp
-L ZENER-RESCUE-RELogger_PCB_v1 D16
-U 1 1 57B7AFA3
-P 4800 3400
-F 0 "D16" H 4800 3500 50  0000 C CNN
-F 1 "5V1" H 4800 3300 50  0000 C CNN
-F 2 "REInnovationFootprint:TH_Diode_1" H 4800 3400 50  0001 C CNN
-F 3 "" H 4800 3400 50  0000 C CNN
-	1    4800 3400
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	4800 2950 4800 3200
-Connection ~ 4800 2950
-Wire Wire Line
-	4800 3800 4800 3600
-Connection ~ 4800 3800
 Text HLabel 1450 4250 0    60   Input ~ 0
 Freq_IN
 Text HLabel 7500 4350 2    60   Output ~ 0
@@ -363,4 +346,15 @@ Wire Wire Line
 Wire Wire Line
 	6200 4250 6200 4000
 Connection ~ 6200 4000
+$Comp
+L D D?
+U 1 1 595D9167
+P 4650 2650
+F 0 "D?" H 4650 2750 50  0000 C CNN
+F 1 "D" H 4650 2550 50  0000 C CNN
+F 2 "" H 4650 2650 50  0000 C CNN
+F 3 "" H 4650 2650 50  0000 C CNN
+	1    4650 2650
+	0    1    1    0   
+$EndComp
 $EndSCHEMATC
