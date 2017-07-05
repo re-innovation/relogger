@@ -119,3 +119,10 @@ This section needs work to implement and a decision on which type of temperature
 * Debounce in hardware
 * HC12 Data connection to Wifi Logger unit
 
+# Changes to make
+
+* Sort out Vin connection
+* Serial data connection without power (offset is affected by 5V voltage)
+* Debounce wih buffer/filter
+
+
