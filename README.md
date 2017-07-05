@@ -112,7 +112,7 @@ This section needs work to implement and a decision on which type of temperature
 
 * PCB redesign with no display. Fits onto solar LiPo unit if needed.
 * PCB design with display shield for front
-* Add protection on the input lines (1N4148 up to + and GND).
+* Add protection on the input lines (1N4148 up to + and GND). Over AND undervoltage protection
 * Config on SD card
 * Test Nano power consumption
 * Code full redesign
