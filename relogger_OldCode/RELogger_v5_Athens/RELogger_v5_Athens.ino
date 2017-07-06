@@ -201,8 +201,11 @@ DS3231  rtc(SDA, SCL);
 
 /********** ADC info **************/
 #define ADC_CS 9      // Pin for the CS for the ADC
-#define ADC_VREF    3280     // 3.3V Vref
+#define ADC_VREF    3300     // 3.3V Vref
 #define ADC_CLK     1600000  // SPI clock 1.6MHz
+
+
+
 
 #define battVoltagePin A0   // The battery voltage with a potential divider (100k//100k)
 //#define voltagePin A2  // The external voltage with a potential divider (470k // 47k)
@@ -224,6 +227,8 @@ int windDirectionArray[] = {0,0,0,0,0,0,0,0,0};  //Holds the frequency of the wi
 ///********* Battery Voltage ****************/
 float batteryVoltage;        // Temporary store for float
 char BatteryVoltStr[6];      // Hold the battery voltage as a string
+
+int battLowV  = 3900;    // In mV Battery alarm ON
 
 ///********* Battery Voltage ****************/
 float externalVoltage;        // Temporary store for float
@@ -507,6 +512,21 @@ void setup()
   Serial.println(currentOffset);
   Serial.flush();
   
+  // Read the Battery Low Voltage from the EEPROM
+  hiByte = EEPROM.read(6);
+  loByte = EEPROM.read(7);
+  battLowV = (hiByte << 8)+loByte;  // Get the sensor calibrate value
+  Serial.print("VBattLow:");
+  Serial.print(battLowV);
+  Serial.println("V");
+  Serial.flush();
+
+  // *********** BATTERY VOLTAGE ***************************************
+  // From Vcc-100k-DATA-100k-GND potential divider
+  // This is to test in case battery voltage has dropped too low - alert?
+  batteryVoltage = float(analogRead(battVoltagePin))*(float(ADC_VREF)/1024000.0f)*((100.0f+100.0f)/100.0f);        // Temporary store for float
+  dtostrf(batteryVoltage,2,2,BatteryVoltStr);     // Hold the battery voltage as a string
+
   // Attach interrupts for the pulse counting
   pinMode(ANEMOMETER1, INPUT_PULLUP); 
   PCintPort::attachInterrupt(ANEMOMETER1, &pulse1, RISING);  // add more attachInterrupt code as required
@@ -660,9 +680,9 @@ void loop()
       
     }
    
-    if(aliveFlashCounter>=10)
+    if(aliveFlashCounter>=10&&batteryVoltage>(float(battLowV)/1000.0f))
     {
-      // Flash the LED every 10 seconds to show alive
+      // Flash the LED GREEN every 10 seconds to show alive and OK
       strip.setPixelColor(0, strip.Color(255,0,0));
       strip.show();
       delay(50);
@@ -670,10 +690,19 @@ void loop()
       strip.show();
       aliveFlashCounter=0;  // Reset the counter 
     }
-
-
-
     
+    // Battery LOW Alert - Highlight that the battery is too low//
+    else if(batteryVoltage<(float(battLowV)/1000.0f))
+    {
+      // Switch On the batt low error
+      // Flash the LED RED every 1 second to show alive
+      strip.setPixelColor(0, strip.Color(0,255,0));
+      strip.show();
+      delay(50);
+      strip.setPixelColor(0, strip.Color(0,0,0));
+      strip.show();
+    }  
+
     if(writedataflag==HIGH)
     {  
       strip.setPixelColor(0, strip.Color(0,0,255));
@@ -702,10 +731,7 @@ void loop()
       // This is to test in case battery voltage has dropped too low - alert?
       batteryVoltage = float(analogRead(battVoltagePin))*(float(ADC_VREF)/1024000.0f)*((100.0f+100.0f)/100.0f);        // Temporary store for float
       dtostrf(batteryVoltage,2,2,BatteryVoltStr);     // Hold the battery voltage as a string
-      
-      // ******* TO DO********************* //
-      // Battery LOW Alert //
-      
+          
   
       // *********** EXTERNAL VOLTAGE ***************************************
       // From Vcc-2200k--10k-GND potential divider
@@ -764,8 +790,9 @@ void loop()
       // Output is Input Voltage - offset / mV per Amp sensitivity
       // Datasheet says 40mV/A at 5.0v
       // Ratiometric so 40mV per amp x VREF /5.0V = real reading
-      // ADC_VREF is in mV so reduce with 1000 factor. current1 is in mV so reduce with 1000 factor.
-      current1 = (current1*40.0f*(float(ADC_VREF)/5.0f))/1000000.0f;
+      // Using 3.3V for the Sensor AND the VREF so OK for 3.3V 40mV/A?
+      // current1 is in mV so reduce with 1000 factor.
+      current1 = (current1*40.0f)/1000.0f; //*(5.0f/float(ADC_VREF)));
        
 //      Serial.print("ADC Current:");
 //      Serial.println(current1);      
@@ -1155,7 +1182,31 @@ void getData()
             // Write this info to EEPROM   
             EEPROM.write(4, currentOffsetInt >> 8);    // Do this seperately
             EEPROM.write(5, currentOffsetInt & 0xff);     
-          }        
+          }  
+
+        if(str_buffer[i]=='V')
+          {    
+            // ******** Set the Battery Low Warning Voltage
+            
+            // We want to measure the offset for the current sensor here. 
+            // This will be changed to a calibrate function.
+            // When switched on the unit should not have any current through the sensor or this
+            // will read incorrectly.
+            delay(100);
+            String vstr = str_buffer.substring(i+1,i+5);
+            battLowV = atoi(&vstr [0]);  
+                    
+            Serial.print("VBattLow:");
+            Serial.print(battLowV);
+            Serial.println("V");
+            delay(100);    
+            
+            // Write this info to EEPROM   
+            EEPROM.write(6, battLowV >> 8);    // Do this seperately
+            EEPROM.write(7, battLowV & 0xff);     
+          }  
+
+                
         }
         str_buffer="";  // Reset the buffer to be filled again 
       }

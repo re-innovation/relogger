@@ -248,21 +248,21 @@ $EndComp
 $Comp
 L CONN_4 P4
 U 1 1 5464B8C5
-P 3500 5250
-F 0 "P4" V 3450 5250 50  0000 C CNN
-F 1 "A_IN_01" V 3550 5250 50  0000 C CNN
-F 2 "matts_components:SIL-4_Grove_SIL" H 3500 5250 60  0001 C CNN
-F 3 "" H 3500 5250 60  0000 C CNN
-F 4 "~" H 3500 5250 60  0001 C CNN "Description"
-F 5 "~" H 3500 5250 60  0001 C CNN "Notes"
-F 6 "~" H 3500 5250 60  0001 C CNN "Manufacturer"
-F 7 "~" H 3500 5250 60  0001 C CNN "Manufacturer Part No"
-F 8 "~" H 3500 5250 60  0001 C CNN "Supplier 1"
-F 9 "~" H 3500 5250 60  0001 C CNN "Supplier 1 Part No"
-F 10 "~" H 3500 5250 60  0001 C CNN "Supplier 2"
-F 11 "~" H 3500 5250 60  0001 C CNN "Supplier 2 Part No"
-F 12 "~" H 3500 5250 60  0001 C CNN "Cost"
-	1    3500 5250
+P 2700 5250
+F 0 "P4" V 2650 5250 50  0000 C CNN
+F 1 "A_IN_01" V 2750 5250 50  0000 C CNN
+F 2 "matts_components:SIL-4_Grove_SIL" H 2700 5250 60  0001 C CNN
+F 3 "" H 2700 5250 60  0000 C CNN
+F 4 "~" H 2700 5250 60  0001 C CNN "Description"
+F 5 "~" H 2700 5250 60  0001 C CNN "Notes"
+F 6 "~" H 2700 5250 60  0001 C CNN "Manufacturer"
+F 7 "~" H 2700 5250 60  0001 C CNN "Manufacturer Part No"
+F 8 "~" H 2700 5250 60  0001 C CNN "Supplier 1"
+F 9 "~" H 2700 5250 60  0001 C CNN "Supplier 1 Part No"
+F 10 "~" H 2700 5250 60  0001 C CNN "Supplier 2"
+F 11 "~" H 2700 5250 60  0001 C CNN "Supplier 2 Part No"
+F 12 "~" H 2700 5250 60  0001 C CNN "Cost"
+	1    2700 5250
 	-1   0    0    1   
 $EndComp
 Text Notes 1000 4850 0    60   ~ 0
@@ -481,21 +481,21 @@ Grove Connectors:\n1 - D0 / Rx / SCLK \n2 - D1 / Tx / SDA \n3 - V+\n4 - GND
 $Comp
 L CONN_4 P5
 U 1 1 5464B8E3
-P 3500 5950
-F 0 "P5" V 3450 5950 50  0000 C CNN
-F 1 "A_IN_23" V 3550 5950 50  0000 C CNN
-F 2 "matts_components:SIL-4_Grove_SIL" H 3500 5950 60  0001 C CNN
-F 3 "" H 3500 5950 60  0000 C CNN
-F 4 "~" H 3500 5950 60  0001 C CNN "Description"
-F 5 "~" H 3500 5950 60  0001 C CNN "Notes"
-F 6 "~" H 3500 5950 60  0001 C CNN "Manufacturer"
-F 7 "~" H 3500 5950 60  0001 C CNN "Manufacturer Part No"
-F 8 "~" H 3500 5950 60  0001 C CNN "Supplier 1"
-F 9 "~" H 3500 5950 60  0001 C CNN "Supplier 1 Part No"
-F 10 "~" H 3500 5950 60  0001 C CNN "Supplier 2"
-F 11 "~" H 3500 5950 60  0001 C CNN "Supplier 2 Part No"
-F 12 "~" H 3500 5950 60  0001 C CNN "Cost"
-	1    3500 5950
+P 2700 5950
+F 0 "P5" V 2650 5950 50  0000 C CNN
+F 1 "A_IN_23" V 2750 5950 50  0000 C CNN
+F 2 "matts_components:SIL-4_Grove_SIL" H 2700 5950 60  0001 C CNN
+F 3 "" H 2700 5950 60  0000 C CNN
+F 4 "~" H 2700 5950 60  0001 C CNN "Description"
+F 5 "~" H 2700 5950 60  0001 C CNN "Notes"
+F 6 "~" H 2700 5950 60  0001 C CNN "Manufacturer"
+F 7 "~" H 2700 5950 60  0001 C CNN "Manufacturer Part No"
+F 8 "~" H 2700 5950 60  0001 C CNN "Supplier 1"
+F 9 "~" H 2700 5950 60  0001 C CNN "Supplier 1 Part No"
+F 10 "~" H 2700 5950 60  0001 C CNN "Supplier 2"
+F 11 "~" H 2700 5950 60  0001 C CNN "Supplier 2 Part No"
+F 12 "~" H 2700 5950 60  0001 C CNN "Cost"
+	1    2700 5950
 	-1   0    0    1   
 $EndComp
 Text HLabel 4450 2750 0    60   Output ~ 0
@@ -526,17 +526,6 @@ Wire Wire Line
 Wire Wire Line
 	1650 5750 1650 5650
 Connection ~ 1650 5650
-$Comp
-L ZENER-RESCUE-RELogger_PCB_v1 D1
-U 1 1 57A777BA
-P 2100 5300
-F 0 "D1" H 2100 5400 50  0000 C CNN
-F 1 "5V1" H 2100 5200 50  0000 C CNN
-F 2 "REInnovationFootprint:TH_Diode_1" H 2100 5300 50  0001 C CNN
-F 3 "" H 2100 5300 50  0000 C CNN
-	1    2100 5300
-	0    1    1    0   
-$EndComp
 $Comp
 L ZENER-RESCUE-RELogger_PCB_v1 D2
 U 1 1 57A77978
@@ -1279,23 +1268,23 @@ Vss
 $Comp
 L CONN_4 P22
 U 1 1 58F4DB06
-P 3500 6550
-F 0 "P22" V 3450 6550 50  0000 C CNN
-F 1 "A_IN_45" V 3550 6550 50  0000 C CNN
-F 2 "matts_components:SIL-4_Grove_SIL" H 3500 6550 60  0001 C CNN
-F 3 "" H 3500 6550 60  0000 C CNN
-F 4 "~" H 3500 6550 60  0001 C CNN "Notes"
-F 5 "~" H 3500 6550 60  0001 C CNN "Description"
-F 6 "~" H 3500 6550 60  0001 C CNN "Manufacturer"
-F 7 "~" H 3500 6550 60  0001 C CNN "Manufacturer Part No"
-F 8 "~" H 3500 6550 60  0001 C CNN "Supplier 1"
-F 9 "~" H 3500 6550 60  0001 C CNN "Supplier 1 Part No"
-F 10 "~" H 3500 6550 60  0001 C CNN "Supplier 1 Cost"
-F 11 "~" H 3500 6550 60  0001 C CNN "Supplier 2"
-F 12 "~" H 3500 6550 60  0001 C CNN "Supplier 2 Part No"
-F 13 "~" H 3500 6550 60  0001 C CNN "Supplier 2 Cost"
-F 14 "~" H 3500 6550 60  0001 C CNN "Cost"
-	1    3500 6550
+P 2700 6550
+F 0 "P22" V 2650 6550 50  0000 C CNN
+F 1 "A_IN_45" V 2750 6550 50  0000 C CNN
+F 2 "matts_components:SIL-4_Grove_SIL" H 2700 6550 60  0001 C CNN
+F 3 "" H 2700 6550 60  0000 C CNN
+F 4 "~" H 2700 6550 60  0001 C CNN "Notes"
+F 5 "~" H 2700 6550 60  0001 C CNN "Description"
+F 6 "~" H 2700 6550 60  0001 C CNN "Manufacturer"
+F 7 "~" H 2700 6550 60  0001 C CNN "Manufacturer Part No"
+F 8 "~" H 2700 6550 60  0001 C CNN "Supplier 1"
+F 9 "~" H 2700 6550 60  0001 C CNN "Supplier 1 Part No"
+F 10 "~" H 2700 6550 60  0001 C CNN "Supplier 1 Cost"
+F 11 "~" H 2700 6550 60  0001 C CNN "Supplier 2"
+F 12 "~" H 2700 6550 60  0001 C CNN "Supplier 2 Part No"
+F 13 "~" H 2700 6550 60  0001 C CNN "Supplier 2 Cost"
+F 14 "~" H 2700 6550 60  0001 C CNN "Cost"
+	1    2700 6550
 	-1   0    0    1   
 $EndComp
 Text HLabel 5500 4550 0    60   Output ~ 0
@@ -1355,8 +1344,6 @@ Wire Wire Line
 Wire Wire Line
 	7150 5550 7150 5650
 Connection ~ 6650 5550
-Text HLabel 3350 4400 1    60   Input ~ 0
-Vss
 Connection ~ 4200 5200
 Text HLabel 5500 4750 0    60   Input ~ 0
 A1
@@ -1623,7 +1610,7 @@ L C C2
 U 1 1 595D7A91
 P 1600 5300
 F 0 "C2" H 1625 5400 50  0000 L CNN
-F 1 "C" H 1625 5200 50  0000 L CNN
+F 1 "100n" H 1650 5100 50  0000 L CNN
 F 2 "" H 1638 5150 50  0000 C CNN
 F 3 "" H 1600 5300 50  0000 C CNN
 	1    1600 5300
@@ -1872,4 +1859,37 @@ Wire Wire Line
 	10100 3550 10450 3550
 Wire Wire Line
 	10100 3650 10450 3650
+$Comp
+L +3.3V-RESCUE-RELogger_PCB_v1 #PWR?
+U 1 1 595E1E54
+P 3350 4400
+F 0 "#PWR?" H 3350 4360 30  0001 C CNN
+F 1 "+3.3V" H 3350 4510 30  0000 C CNN
+F 2 "" H 3350 4400 60  0000 C CNN
+F 3 "" H 3350 4400 60  0000 C CNN
+	1    3350 4400
+	1    0    0    -1  
+$EndComp
+$Comp
+L ZENER-RESCUE-RELogger_PCB_v1 D1
+U 1 1 57A777BA
+P 2100 5300
+F 0 "D1" H 2100 5400 50  0000 C CNN
+F 1 "5V1" H 2100 5200 50  0000 C CNN
+F 2 "REInnovationFootprint:TH_Diode_1" H 2100 5300 50  0001 C CNN
+F 3 "" H 2100 5300 50  0000 C CNN
+	1    2100 5300
+	0    1    1    0   
+$EndComp
+$Comp
+L C C?
+U 1 1 595EF852
+P 3350 5350
+F 0 "C?" H 3375 5450 50  0000 L CNN
+F 1 "C" H 3375 5250 50  0000 L CNN
+F 2 "" H 3388 5200 50  0000 C CNN
+F 3 "" H 3350 5350 50  0000 C CNN
+	1    3350 5350
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
