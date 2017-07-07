@@ -1,18 +1,39 @@
 # Renewable Energy Data Logger
-A multi-function renewable energy data-logger for remote logging.
-This is an Arduino-based data-logger desinged to have reasanable accuracy, be low-cost, suitable for use in remote areas and to be user-friendly to set-up and use.
+
+The RE-Logger is a multi-function renewable energy data-logger for remote logging of environmental and power data.
+This is an Arduino-based data-logger desinged to have reasanable accuracy, be low-cost, suitable for use in remote areas (with no power available) and to be user-friendly to set-up and use.
+
+The unit is designed to measure:
+
+* Wind Speed - either from a hall-effect or pulse anemometer
+* Wind Direction - from a variable resistance vane
+* External Voltage - from a potential divider. NOT isolated.
+* External Current - using a hall-effect sensor.
+* RPM - from a wind turbine wild AC output
+* There are 6 additional analog inputs which can be measured for a variety of sensors.
+* An I2C port is available for I2C sensors
+* A software serial port is available for GPS or other serial sensors
+
+A 12-bit ADC is used to measure the analog data.
+The data is stored on an SD card.
+A DS3231 temperature-compensated Real Time Clock is used for accurate time measurement. 
+There is an RGB indicator LED to dispalay errors.
+The unit has two power supply options - either a solar power supply to recharge a LiPo battery, or with an external voltage of 0-40V DC or 0-60V DC (depending upon the IC used). Current consumption is designed to be minimised through power control and very low quiescent current devices.
+
+The target price for the unit is a maximum of $50 including an enclosure.
 
 This is based upon work with Wind Empowerment.
 
 This repository contains:
 * An overview of the project and functions
 * The Schematics and PCB design files (KiCAD)
-* The Arduino control code and associated libraries
+* The Arduino control code and associated libraries (To be Completed - NOT active)
+* OLD Arduino code - Used in prototype testing
 * Datasheets for all the components
 * Instructions for use
 
-
 # Sensors and Data
+
 This logger can use different types of sensor attached to the inputs.
 
 The set-up is defined on the config.txt file which must be included on the SD card.
