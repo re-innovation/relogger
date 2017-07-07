@@ -91,6 +91,8 @@ If we read 1.0V from the sensor then the conversion is: ((1.0V - offset)*1000)/ 
 
 The factor of 1000 converts the voltage to mV so the calculation works correctly.
 
+The ACS756 has an offset of 1/2 of the supply voltage. The gradient is 40mV/A but this is ratio-metric. The supply for this unit should be 3.3V.
+
 ## Temperature Digital
 
 The 1-wire temeprature sensor DS18B20 is used to measure the temperature.
