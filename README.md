@@ -152,5 +152,6 @@ This section needs work to implement and a decision on which type of temperature
 * Sort out power supply issues (drop in voltage after readings made (SD write?)).
 * Sort out accurate Vref on board
 * Sort out Offset to store float as int? 
+* Isolated voltage measurement? 
 
 
