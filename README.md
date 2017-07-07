@@ -149,5 +149,8 @@ This section needs work to implement and a decision on which type of temperature
 * Debounce wih buffer/filter- NEED Buffer, DONE - Filter.
 * Ground connection to SD card unit - DONE
 * RC filter on the Current Measurement - DONE on prototype
+* Sort out power supply issues (drop in voltage after readings made (SD write?)).
+* Sort out accurate Vref on board
+* Sort out Offset to store float as int? 
 
 
