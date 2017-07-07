@@ -125,5 +125,6 @@ This section needs work to implement and a decision on which type of temperature
 * Serial data connection without power (offset is affected by 5V voltage) - Use serial connector for this
 * Debounce wih buffer/filter- DONE
 * Ground connection to SD card unit - DONE
+* RC filter on the Current Measurement - DONE on prototype
 
 
