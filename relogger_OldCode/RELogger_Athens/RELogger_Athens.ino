@@ -504,10 +504,14 @@ void setup()
   Serial.flush();
   
   // Read the Current Voltage Offset from the EEROM
+  
+  // READ as a float using EEPROM PUT?
+  
   hiByte = EEPROM.read(4);
   loByte = EEPROM.read(5);
   currentOffsetInt = (hiByte << 8)+loByte;  // Get the sensor calibrate value
   currentOffset = float(adc.toAnalog(currentOffsetInt)); // Get the real current offset value as analog
+  
   Serial.print("Ioff: ");
   Serial.println(currentOffset);
   Serial.flush();
@@ -635,9 +639,6 @@ void loop()
   
     if(checkCurrentFlag==HIGH)
     {
-      // Is the SD OK?
-      // If Not then show a RED error
-      // ***** TO DO *************************************
       
       // *********** WIND DIRECTION **************************************  
       // Want to measure the wind direction every second to give good direction analysis
@@ -647,21 +648,33 @@ void loop()
       convertWindDirection(adc.read(MCP3208::vanePin));    // Run this every second. It increments the windDirectionArray        
 
                
-      // *********** Check current every 1 sec and average*******************
-      currentDataAve=0; // Reset this value before doing measurement
-      // Current averaging - 1 second amples averaged over sample period
-      for(int y=0;y<10;y++)
-      {
-        currentDataAve += adc.read(MCP3208::current1Pin);
-        delay(1);
-      }
-      currentData1 += (float(currentDataAve)/10.0);
+//      // *********** Check current every 1 sec and average*******************
+//      currentDataAve=0; // Reset this value before doing measurement
+//      // Current averaging - 1 second amples averaged over sample period
+//      for(int y=0;y<10;y++)
+//      {
+//        currentDataAve += adc.read(MCP3208::current1Pin);
+//        delay(1);
+//      }
+//      currentData1 += (float(currentDataAve)/10.0);
       
       if(calibrateFlag==HIGH)
       {
-        Serial.println(sampleTime-dataCounter+1);
+        Serial.print(sampleTime-dataCounter+1);
+        if(dataCounter==sampleTime)
+        {
+          Serial.println("..");
+        }
+        else
+        {
+          Serial.print("..");
+        }
         Serial.flush();    // Force out the end of the serial data
       }
+      
+      // Is the SD OK?
+      
+      // If Not then show a RED error
       // SD Card check - if not OK then highlight 1 per second
       if(sdErrorFlag==HIGH)
       {
@@ -755,26 +768,42 @@ void loop()
       // Comment out whichever you are not using
    
   
-      // Lets average the data here over sample period (in normal mode) or over 1 second (if calibrate mode):
-      if(calibrateFlag==HIGH)
-      {
-        current1 = float(currentData1)/float(sampleTime);
-      }
-      else
-      {
-        current1 = float(currentData1);
-      }
+//      // Lets average the data here over sample period (in normal mode) or over 1 second (if calibrate mode):
+//      if(calibrateFlag==HIGH)
+//      {
+//        current1 = float(currentData1)/float(sampleTime);
+//      }
+//      else
+//      {
+//        current1 = float(currentData1);
+//      }
 
-//      Serial.print("ADC Raw:");
-//      Serial.println(currentData1);           
+      // *********** Check current every sample time and average*******************
+      currentDataAve=0; // Reset this value before doing measurement
+      
+      // Current averaging - 1 second amples averaged over sample period
+      for(int y=0;y<20;y++)
+      {
+        // Lets do this all as a float and do calculation here for each value?
+        
+        int ADCread = adc.read(MCP3208::current1Pin);
+//        Serial.print("I Raw:");
+//        Serial.println(ADCread);
+        currentDataAve += ADCread;
+        delay(1);
+      }
+ 
+      current1 = (float(currentDataAve)/20.0f);
+
+      current1 = adc.toAnalog(current1);
+                 
 //      current1 = adc.toAnalog(current1) - (float(batteryVoltage)/2.0f);
-      current1 = adc.toAnalog(current1) - currentOffset;
+      // THIS IS A HACK FOR ATHENS!!!!
       
-      // Current 1 holds the incoming voltage.
-//      Serial.print("ADC Voltage mV:");
-//      Serial.println(current1);
-      
-      currentData1 = 0;  // Reset the value  
+      current1 = current1 - 1893.0f; 
+        
+      Serial.print("I mV:");
+      Serial.println(current1);      
                
 //      // ********** LEM HTFS 200-P SENSOR *********************************
 //      // Voutput is Vref +/- 1.25 * Ip/Ipn 
@@ -791,11 +820,22 @@ void loop()
       // Datasheet says 40mV/A at 5.0v
       // Ratiometric so 40mV per amp x VREF /5.0V = real reading
       // Using 3.3V for the Sensor AND the VREF so OK for 3.3V 40mV/A?
-      // current1 is in mV so reduce with 1000 factor.
-      current1 = (current1*40.0f)/1000.0f; //*(5.0f/float(ADC_VREF)));
-       
-//      Serial.print("ADC Current:");
-//      Serial.println(current1);      
+      // current1 is in mV.
+      
+      // Added a 4.7K and 100nf RC filter. Needed to add a new calibration factor.
+      // This might be solved by using a buffer on this signal?
+
+      // This is ratiometric, so needs to be less with 4.27V supply?...
+      
+      // Factor from Athens testing.
+      current1 = (current1*0.073498f) - 0.388f; 
+      if(current1<0.0f)
+      {
+        current1=0.0f;
+      }
+      Serial.print("I A:");
+      Serial.println(current1);
+           
       // Convert the current to a string.
       dtostrf(current1,2,3,Current1Str);     // Hold the battery voltage as a string
     
@@ -1165,23 +1205,33 @@ void getData()
             // When switched on the unit should not have any current through the sensor or this
             // will read incorrectly.
             delay(100);
-            currentData1 = 0;  // Reset this holder
-            for(int i = 0;i<=19;i++)
+
+            
+            currentDataAve = 0;  // Reset this holder
+            for(int i = 0;i<20;i++)
             {  
-              currentData1 += adc.read(MCP3208::current1Pin);
-              delay(20);
+              currentDataAve += adc.read(MCP3208::current1Pin);
+              delay(5);
             }           
-            currentOffsetInt = currentData1/20;
+
+            currentData1 = (float(currentDataAve)/20.0f);
+            currentOffset = adc.toAnalog(currentData1);
+            
+            
             currentOffset = float(adc.toAnalog(currentOffsetInt));
             
             Serial.print("Ioffset:");
-            Serial.print(currentOffsetInt);
+            Serial.print(currentOffset);
             Serial.println("V");
-            delay(100);    
+            delay(50);    
+
+            // Store as a float using EEPROM PUT?
             
             // Write this info to EEPROM   
             EEPROM.write(4, currentOffsetInt >> 8);    // Do this seperately
             EEPROM.write(5, currentOffsetInt & 0xff);     
+            
+            delay(50);
           }  
 
         if(str_buffer[i]=='V')

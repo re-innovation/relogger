@@ -248,21 +248,21 @@ $EndComp
 $Comp
 L CONN_4 P4
 U 1 1 5464B8C5
-P 3500 5250
-F 0 "P4" V 3450 5250 50  0000 C CNN
-F 1 "A_IN_01" V 3550 5250 50  0000 C CNN
-F 2 "matts_components:SIL-4_Grove_SIL" H 3500 5250 60  0001 C CNN
-F 3 "" H 3500 5250 60  0000 C CNN
-F 4 "~" H 3500 5250 60  0001 C CNN "Description"
-F 5 "~" H 3500 5250 60  0001 C CNN "Notes"
-F 6 "~" H 3500 5250 60  0001 C CNN "Manufacturer"
-F 7 "~" H 3500 5250 60  0001 C CNN "Manufacturer Part No"
-F 8 "~" H 3500 5250 60  0001 C CNN "Supplier 1"
-F 9 "~" H 3500 5250 60  0001 C CNN "Supplier 1 Part No"
-F 10 "~" H 3500 5250 60  0001 C CNN "Supplier 2"
-F 11 "~" H 3500 5250 60  0001 C CNN "Supplier 2 Part No"
-F 12 "~" H 3500 5250 60  0001 C CNN "Cost"
-	1    3500 5250
+P 2700 5250
+F 0 "P4" V 2650 5250 50  0000 C CNN
+F 1 "A_IN_01" V 2750 5250 50  0000 C CNN
+F 2 "matts_components:SIL-4_Grove_SIL" H 2700 5250 60  0001 C CNN
+F 3 "" H 2700 5250 60  0000 C CNN
+F 4 "~" H 2700 5250 60  0001 C CNN "Description"
+F 5 "~" H 2700 5250 60  0001 C CNN "Notes"
+F 6 "~" H 2700 5250 60  0001 C CNN "Manufacturer"
+F 7 "~" H 2700 5250 60  0001 C CNN "Manufacturer Part No"
+F 8 "~" H 2700 5250 60  0001 C CNN "Supplier 1"
+F 9 "~" H 2700 5250 60  0001 C CNN "Supplier 1 Part No"
+F 10 "~" H 2700 5250 60  0001 C CNN "Supplier 2"
+F 11 "~" H 2700 5250 60  0001 C CNN "Supplier 2 Part No"
+F 12 "~" H 2700 5250 60  0001 C CNN "Cost"
+	1    2700 5250
 	-1   0    0    1   
 $EndComp
 Text Notes 1000 4850 0    60   ~ 0
@@ -481,21 +481,21 @@ Grove Connectors:\n1 - D0 / Rx / SCLK \n2 - D1 / Tx / SDA \n3 - V+\n4 - GND
 $Comp
 L CONN_4 P5
 U 1 1 5464B8E3
-P 3500 5950
-F 0 "P5" V 3450 5950 50  0000 C CNN
-F 1 "A_IN_23" V 3550 5950 50  0000 C CNN
-F 2 "matts_components:SIL-4_Grove_SIL" H 3500 5950 60  0001 C CNN
-F 3 "" H 3500 5950 60  0000 C CNN
-F 4 "~" H 3500 5950 60  0001 C CNN "Description"
-F 5 "~" H 3500 5950 60  0001 C CNN "Notes"
-F 6 "~" H 3500 5950 60  0001 C CNN "Manufacturer"
-F 7 "~" H 3500 5950 60  0001 C CNN "Manufacturer Part No"
-F 8 "~" H 3500 5950 60  0001 C CNN "Supplier 1"
-F 9 "~" H 3500 5950 60  0001 C CNN "Supplier 1 Part No"
-F 10 "~" H 3500 5950 60  0001 C CNN "Supplier 2"
-F 11 "~" H 3500 5950 60  0001 C CNN "Supplier 2 Part No"
-F 12 "~" H 3500 5950 60  0001 C CNN "Cost"
-	1    3500 5950
+P 2700 5950
+F 0 "P5" V 2650 5950 50  0000 C CNN
+F 1 "A_IN_23" V 2750 5950 50  0000 C CNN
+F 2 "matts_components:SIL-4_Grove_SIL" H 2700 5950 60  0001 C CNN
+F 3 "" H 2700 5950 60  0000 C CNN
+F 4 "~" H 2700 5950 60  0001 C CNN "Description"
+F 5 "~" H 2700 5950 60  0001 C CNN "Notes"
+F 6 "~" H 2700 5950 60  0001 C CNN "Manufacturer"
+F 7 "~" H 2700 5950 60  0001 C CNN "Manufacturer Part No"
+F 8 "~" H 2700 5950 60  0001 C CNN "Supplier 1"
+F 9 "~" H 2700 5950 60  0001 C CNN "Supplier 1 Part No"
+F 10 "~" H 2700 5950 60  0001 C CNN "Supplier 2"
+F 11 "~" H 2700 5950 60  0001 C CNN "Supplier 2 Part No"
+F 12 "~" H 2700 5950 60  0001 C CNN "Cost"
+	1    2700 5950
 	-1   0    0    1   
 $EndComp
 Text HLabel 4450 2750 0    60   Output ~ 0
@@ -1268,23 +1268,23 @@ Vss
 $Comp
 L CONN_4 P22
 U 1 1 58F4DB06
-P 3500 6550
-F 0 "P22" V 3450 6550 50  0000 C CNN
-F 1 "A_IN_45" V 3550 6550 50  0000 C CNN
-F 2 "matts_components:SIL-4_Grove_SIL" H 3500 6550 60  0001 C CNN
-F 3 "" H 3500 6550 60  0000 C CNN
-F 4 "~" H 3500 6550 60  0001 C CNN "Notes"
-F 5 "~" H 3500 6550 60  0001 C CNN "Description"
-F 6 "~" H 3500 6550 60  0001 C CNN "Manufacturer"
-F 7 "~" H 3500 6550 60  0001 C CNN "Manufacturer Part No"
-F 8 "~" H 3500 6550 60  0001 C CNN "Supplier 1"
-F 9 "~" H 3500 6550 60  0001 C CNN "Supplier 1 Part No"
-F 10 "~" H 3500 6550 60  0001 C CNN "Supplier 1 Cost"
-F 11 "~" H 3500 6550 60  0001 C CNN "Supplier 2"
-F 12 "~" H 3500 6550 60  0001 C CNN "Supplier 2 Part No"
-F 13 "~" H 3500 6550 60  0001 C CNN "Supplier 2 Cost"
-F 14 "~" H 3500 6550 60  0001 C CNN "Cost"
-	1    3500 6550
+P 2700 6550
+F 0 "P22" V 2650 6550 50  0000 C CNN
+F 1 "A_IN_45" V 2750 6550 50  0000 C CNN
+F 2 "matts_components:SIL-4_Grove_SIL" H 2700 6550 60  0001 C CNN
+F 3 "" H 2700 6550 60  0000 C CNN
+F 4 "~" H 2700 6550 60  0001 C CNN "Notes"
+F 5 "~" H 2700 6550 60  0001 C CNN "Description"
+F 6 "~" H 2700 6550 60  0001 C CNN "Manufacturer"
+F 7 "~" H 2700 6550 60  0001 C CNN "Manufacturer Part No"
+F 8 "~" H 2700 6550 60  0001 C CNN "Supplier 1"
+F 9 "~" H 2700 6550 60  0001 C CNN "Supplier 1 Part No"
+F 10 "~" H 2700 6550 60  0001 C CNN "Supplier 1 Cost"
+F 11 "~" H 2700 6550 60  0001 C CNN "Supplier 2"
+F 12 "~" H 2700 6550 60  0001 C CNN "Supplier 2 Part No"
+F 13 "~" H 2700 6550 60  0001 C CNN "Supplier 2 Cost"
+F 14 "~" H 2700 6550 60  0001 C CNN "Cost"
+	1    2700 6550
 	-1   0    0    1   
 $EndComp
 Text HLabel 5500 4550 0    60   Output ~ 0
@@ -1296,9 +1296,9 @@ Wire Wire Line
 Wire Wire Line
 	5500 4550 5850 4550
 Wire Wire Line
-	3850 5100 4100 5100
+	3700 5100 4100 5100
 Wire Wire Line
-	4100 6400 3850 6400
+	3700 6400 4100 6400
 Wire Wire Line
 	4100 5800 3850 5800
 Connection ~ 4100 5800
@@ -1534,7 +1534,7 @@ Wire Wire Line
 Wire Wire Line
 	2700 3550 2700 3600
 Wire Wire Line
-	4100 4700 4100 6400
+	4100 6400 4100 4700
 Wire Wire Line
 	9000 5550 9300 5550
 $Comp
@@ -1720,7 +1720,7 @@ Wire Wire Line
 	8850 4750 8850 4200
 Connection ~ 8850 4200
 Wire Wire Line
-	4400 4700 4100 4700
+	4100 4700 4400 4700
 $Comp
 L Q_PMOS_DGS Q1
 U 1 1 59602968
@@ -1733,7 +1733,7 @@ F 3 "" H 3250 4750 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	3350 4550 3350 4400
+	3350 4400 3350 4550
 Wire Wire Line
 	3350 4950 4200 4950
 Wire Wire Line
@@ -1880,5 +1880,73 @@ F 2 "REInnovationFootprint:TH_Diode_1" H 2100 5300 50  0001 C CNN
 F 3 "" H 2100 5300 50  0000 C CNN
 	1    2100 5300
 	0    1    1    0   
+$EndComp
+$Comp
+L C C?
+U 1 1 595EF852
+P 3550 5550
+F 0 "C?" H 3575 5650 50  0000 L CNN
+F 1 "100n" H 3575 5450 50  0000 L CNN
+F 2 "" H 3588 5400 50  0000 C CNN
+F 3 "" H 3550 5550 50  0000 C CNN
+	1    3550 5550
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R?
+U 1 1 595FA426
+P 3550 5100
+F 0 "R?" V 3630 5100 50  0000 C CNN
+F 1 "4.7k" V 3550 5100 50  0000 C CNN
+F 2 "" V 3480 5100 50  0000 C CNN
+F 3 "" H 3550 5100 50  0000 C CNN
+	1    3550 5100
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3050 5100 3400 5100
+$Comp
+L R R?
+U 1 1 595FB6B9
+P 3550 5800
+F 0 "R?" V 3630 5800 50  0000 C CNN
+F 1 "4.7k" V 3550 5800 50  0000 C CNN
+F 2 "" V 3480 5800 50  0000 C CNN
+F 3 "" H 3550 5800 50  0000 C CNN
+	1    3550 5800
+	0    1    1    0   
+$EndComp
+$Comp
+L R R?
+U 1 1 595FB8E9
+P 3550 6400
+F 0 "R?" V 3630 6400 50  0000 C CNN
+F 1 "4.7k" V 3550 6400 50  0000 C CNN
+F 2 "" V 3480 6400 50  0000 C CNN
+F 3 "" H 3550 6400 50  0000 C CNN
+	1    3550 6400
+	0    1    1    0   
+$EndComp
+$Comp
+L C C?
+U 1 1 595FBB16
+P 3550 6250
+F 0 "C?" H 3575 6350 50  0000 L CNN
+F 1 "100n" H 3575 6150 50  0000 L CNN
+F 2 "" H 3588 6100 50  0000 C CNN
+F 3 "" H 3550 6250 50  0000 C CNN
+	1    3550 6250
+	0    -1   -1   0   
+$EndComp
+$Comp
+L C C?
+U 1 1 595FBD4A
+P 3550 6950
+F 0 "C?" H 3575 7050 50  0000 L CNN
+F 1 "100n" H 3575 6850 50  0000 L CNN
+F 2 "" H 3588 6800 50  0000 C CNN
+F 3 "" H 3550 6950 50  0000 C CNN
+	1    3550 6950
+	0    -1   -1   0   
 $EndComp
 $EndSCHEMATC
