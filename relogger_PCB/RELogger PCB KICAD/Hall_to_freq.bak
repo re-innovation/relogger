@@ -347,14 +347,16 @@ Wire Wire Line
 	6200 4250 6200 4000
 Connection ~ 6200 4000
 $Comp
-L D D?
+L D D16
 U 1 1 595D9167
 P 4650 2650
-F 0 "D?" H 4650 2750 50  0000 C CNN
+F 0 "D16" H 4650 2750 50  0000 C CNN
 F 1 "D" H 4650 2550 50  0000 C CNN
 F 2 "" H 4650 2650 50  0000 C CNN
 F 3 "" H 4650 2650 50  0000 C CNN
 	1    4650 2650
 	0    1    1    0   
 $EndComp
+Text Notes 4450 5200 0    60   ~ 0
+This needs replacing with updated circuit
 $EndSCHEMATC

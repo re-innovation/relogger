@@ -51,34 +51,34 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
-Connection ~ 10200 5050
+Connection ~ 3150 6400
 Wire Wire Line
-	8850 5450 10200 5450
-Connection ~ 8850 5050
+	1800 6800 3150 6800
+Connection ~ 1800 6400
 $Comp
 L CP1-RESCUE-RELogger_PCB_v1 C13
 U 1 1 5463B713
-P 10200 5250
-F 0 "C13" H 10250 5350 50  0000 L CNN
-F 1 "10uF" H 10250 5150 50  0000 L CNN
-F 2 "REInnovationFootprint:C_1V7_TH" H 10200 5250 60  0001 C CNN
-F 3 "" H 10200 5250 60  0001 C CNN
-	1    10200 5250
+P 3150 6600
+F 0 "C13" H 3200 6700 50  0000 L CNN
+F 1 "10uF" H 3200 6500 50  0000 L CNN
+F 2 "REInnovationFootprint:C_1V7_TH" H 3150 6600 60  0001 C CNN
+F 3 "" H 3150 6600 60  0001 C CNN
+	1    3150 6600
 	1    0    0    -1  
 $EndComp
 $Comp
 L CP1-RESCUE-RELogger_PCB_v1 C11
 U 1 1 5463B719
-P 8850 5250
-F 0 "C11" H 8900 5350 50  0000 L CNN
-F 1 "10uF" H 8900 5150 50  0000 L CNN
-F 2 "REInnovationFootprint:C_1V7_TH" H 8850 5250 60  0001 C CNN
-F 3 "" H 8850 5250 60  0001 C CNN
-	1    8850 5250
+P 1800 6600
+F 0 "C11" H 1850 6700 50  0000 L CNN
+F 1 "10uF" H 1850 6500 50  0000 L CNN
+F 2 "REInnovationFootprint:C_1V7_TH" H 1800 6600 60  0001 C CNN
+F 3 "" H 1800 6600 60  0001 C CNN
+	1    1800 6600
 	1    0    0    -1  
 $EndComp
-Text HLabel 10500 5050 2    60   Output ~ 0
-3V3
+Text HLabel 3450 6400 2    60   Output ~ 0
+3V3_PWR
 Text HLabel 4150 2700 0    60   Input ~ 0
 SOLAR+
 Text HLabel 1750 1850 0    60   Input ~ 0
@@ -130,7 +130,7 @@ $EndComp
 Text HLabel 4400 4450 0    60   Input ~ 0
 BATT+
 Wire Wire Line
-	9950 5050 10500 5050
+	2900 6400 3450 6400
 Text HLabel 1750 1000 0    60   Input ~ 0
 EXTERNAL+
 $Comp
@@ -252,15 +252,15 @@ Wire Wire Line
 	4150 1650 4150 1850
 Connection ~ 4150 1850
 Wire Wire Line
-	9550 5350 9550 5450
-Connection ~ 9550 5450
-Text HLabel 9200 5650 0    60   Input ~ 0
+	2500 6700 2500 6800
+Connection ~ 2500 6800
+Text HLabel 2150 7000 0    60   Input ~ 0
 GND
 Wire Wire Line
-	9200 5650 9350 5650
+	2150 7000 2300 7000
 Wire Wire Line
-	9350 5650 9350 5450
-Connection ~ 9350 5450
+	2300 7000 2300 6800
+Connection ~ 2300 6800
 Connection ~ 2000 1850
 $Comp
 L MCP73832 U5
@@ -404,7 +404,7 @@ F 3 "" H 6050 4750 50  0000 C CNN
 $EndComp
 Text HLabel 4750 4300 0    60   Input ~ 0
 GND
-Text HLabel 8150 5050 0    60   Input ~ 0
+Text HLabel 1100 6400 0    60   Input ~ 0
 Vss
 Text HLabel 4500 5150 0    60   Input ~ 0
 GND
@@ -490,16 +490,22 @@ Wire Wire Line
 Wire Wire Line
 	6200 3050 7200 3050
 Wire Wire Line
-	8150 5050 9150 5050
+	1100 6400 2100 6400
 $Comp
 L MCP1826S U2
 U 1 1 58F214B0
-P 9550 5100
-F 0 "U2" H 9700 4904 60  0000 C CNN
-F 1 "MCP1826S" H 9550 5300 60  0000 C CNN
-F 2 "REInnovationFootprint:TO220_MCP1826S" H 9550 5100 60  0001 C CNN
-F 3 "" H 9550 5100 60  0000 C CNN
-	1    9550 5100
+P 2500 6450
+F 0 "U2" H 2650 6254 60  0000 C CNN
+F 1 "MCP1826S" H 2500 6650 60  0000 C CNN
+F 2 "REInnovationFootprint:TO220_MCP1826S" H 2500 6450 60  0001 C CNN
+F 3 "" H 2500 6450 60  0000 C CNN
+	1    2500 6450
 	1    0    0    -1  
 $EndComp
+Text HLabel 6050 6400 2    60   Output ~ 0
+3V3_REF
+Text HLabel 5050 7050 0    60   Input ~ 0
+GND
+Text HLabel 4600 6400 0    60   Input ~ 0
+Vss
 $EndSCHEMATC
